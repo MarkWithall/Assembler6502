@@ -1,0 +1,21 @@
+﻿using System;
+
+namespace Assembler6502
+{
+    public static class Compiler
+    {
+        public static byte[] Compile(string[] sourceCode, UInt16 startingAddress)
+        {
+            byte[] program =
+            {
+                0x3C, 0x03, // staring memory location (828)
+                0xAD, 0x80, 0x03, // LDA $0380 ; (896)
+                0xAE, 0x81, 0x03, // LDX $0381 ; (897)
+                0x8D, 0x81, 0x03, // STA $0381
+                0x8E, 0x80, 0x03, // STX $0380
+                0x60, // RTS
+            };
+            return program;
+        }
+    }
+}
