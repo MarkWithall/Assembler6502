@@ -25,14 +25,14 @@ namespace Assembler6502
                 "RTS"
             };
 
-            var program = Compiler.Compile(sourceCode, 0x033C);
+            var binary = Compiler.Compile(sourceCode, 0x033C);
 
             try
             {
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 using (var writer = new BinaryWriter(stream))
                 {
-                    writer.Write(program);
+                    writer.Write(binary);
                 }
             }
             catch(Exception ex)
