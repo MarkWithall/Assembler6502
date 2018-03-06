@@ -1,0 +1,22 @@
+syntax: glob
+
+# Visual Studio
+[Bb]in/
+[Oo]bj/
+*.suo
+*.user
+[Mm]etric[Rr]esults/
+.vs/
+
+# NuGet
+packages/
+
+# ReSharper
+_[Rr]eSharper*
+*.DotSettings*
+
+# NCrunch
+*[Nn][Cc]runch*
+
+# Misc.
+*.swp
