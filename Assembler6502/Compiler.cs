@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Assembler6502
+﻿namespace Assembler6502
 {
     public static class Compiler
     {
-        public static byte[] Compile(string[] sourceCode, UInt16 startingAddress)
+        public static byte[] Compile(string[] sourceCode, ushort startingAddress)
         {
             byte[] program =
             {
