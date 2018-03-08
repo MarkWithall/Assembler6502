@@ -17,7 +17,7 @@ namespace Assembler6502.Tests
                 "RTS"
             };
 
-            var binary = Compiler.Compile(sourceCode, 0x033C);
+            var binary = Assembler.Assemble(sourceCode, 0x033C);
 
             byte[] expectedBinary =
             {

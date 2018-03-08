@@ -1,8 +1,8 @@
 ﻿namespace Assembler6502
 {
-    public static class Compiler
+    public static class Assembler
     {
-        public static byte[] Compile(string[] sourceCode, ushort startingAddress)
+        public static byte[] Assemble(string[] sourceCode, ushort startingAddress)
         {
             byte[] program =
             {
