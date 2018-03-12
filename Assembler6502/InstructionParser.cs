@@ -36,7 +36,7 @@ namespace Assembler6502
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
                 return parts[0].Length == 3 ? ZeroPageXIndexed : AbsoluteXIndexed;
             if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
-                return AbsoluteYIndexed;
+                return parts[0].Length == 3 ? ZeroPageYIndexed :AbsoluteYIndexed;
 
             return Absolute;
         }
