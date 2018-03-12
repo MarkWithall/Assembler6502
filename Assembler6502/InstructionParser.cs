@@ -56,8 +56,9 @@ namespace Assembler6502
             var xIndexMatch = Regex.Match(addressString, @"^(.*),X");
             if (xIndexMatch.Success)
                 return (addressString.Length == 5 ? ZeroPageXIndexed : AbsoluteXIndexed, ParseNumber(xIndexMatch.Groups[1].Value));
-            if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
-                return (addressString.Length == 5 ? ZeroPageYIndexed : AbsoluteYIndexed, 0x0000);
+            var yIndexMatch = Regex.Match(addressString, @"^(.*),Y");
+            if (yIndexMatch.Success)
+                return (addressString.Length == 5 ? ZeroPageYIndexed : AbsoluteYIndexed, ParseNumber(yIndexMatch.Groups[1].Value));
 
             return (Unknown, 0x0000);
         }

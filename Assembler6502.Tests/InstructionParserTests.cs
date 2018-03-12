@@ -41,6 +41,7 @@ namespace Assembler6502.Tests
         [TestCase("bne *$03", (ushort) 0x0003)]
         [TestCase("sta $0004", (ushort) 0x0004)]
         [TestCase("and $0005,X", (ushort) 0x0005)]
+        [TestCase("ldx $0006,Y", (ushort) 0x0006)]
         public void ParseInstructionForAddress(string instructionString, ushort expectedAddress)
         {
             var instruction = InstructionParser.Parse(instructionString);
