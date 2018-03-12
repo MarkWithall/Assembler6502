@@ -11,8 +11,15 @@ namespace Assembler6502
             return new Instruction
             {
                 Code = Enum.Parse<OpCode>(opCodeString),
-                Mode = addressString == string.Empty ? AddressingMode.Implicit : AddressingMode.Accumulator
+                Mode = ParseAddress(addressString)
             };
+        }
+
+        private static AddressingMode ParseAddress(string addressString)
+        {
+            if (addressString == string.Empty)
+                return AddressingMode.Implicit;
+            return addressString == "A" ? AddressingMode.Accumulator : AddressingMode.Immediate;
         }
     }
 }
