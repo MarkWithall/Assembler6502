@@ -44,15 +44,13 @@ namespace Assembler6502
                     return Indirect;
             }
 
-            var parts = addressString.Split(',');
-
-            if (parts.Length == 1)
+            if (!addressString.Contains(","))
                 return addressString.Length == 3 ? ZeroPage : Absolute;
 
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
-                return parts[0].Length == 3 ? ZeroPageXIndexed : AbsoluteXIndexed;
+                return addressString.Length == 5 ? ZeroPageXIndexed : AbsoluteXIndexed;
             if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
-                return parts[0].Length == 3 ? ZeroPageYIndexed : AbsoluteYIndexed;
+                return addressString.Length == 5 ? ZeroPageYIndexed : AbsoluteYIndexed;
 
             return Unknown;
         }
