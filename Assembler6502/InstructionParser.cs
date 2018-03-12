@@ -55,8 +55,10 @@ namespace Assembler6502
                     return IndirectYIndexed;
                 return parts[0].Length == 3 ? ZeroPageYIndexed : AbsoluteYIndexed;
             }
+            if (addressString.EndsWith(",X)", StringComparison.InvariantCulture))
+                return XIndexedIndirect;
 
-            return XIndexedIndirect;
+            return Unknown;
         }
     }
 }
