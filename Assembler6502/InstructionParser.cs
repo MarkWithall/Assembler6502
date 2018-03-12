@@ -51,7 +51,7 @@ namespace Assembler6502
             }
 
             if (!addressString.Contains(","))
-                return (addressString.Length == 3 ? ZeroPage : Absolute, 0x0000);
+                return (addressString.Length == 3 ? ZeroPage : Absolute, ParseNumber(addressString));
 
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
                 return (addressString.Length == 5 ? ZeroPageXIndexed : AbsoluteXIndexed, 0x0000);

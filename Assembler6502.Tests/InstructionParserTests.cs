@@ -35,10 +35,11 @@ namespace Assembler6502.Tests
             });
         }
 
-        [TestCase("lda #$00", (ushort)0x0000)]
+        [TestCase("lda #$00", (ushort) 0x0000)]
         [TestCase("lda #$01", (ushort) 0x0001)]
-        [TestCase("bne *$02", (ushort)0x0002)]
+        [TestCase("bne *$02", (ushort) 0x0002)]
         [TestCase("bne *$03", (ushort) 0x0003)]
+        [TestCase("sta $0004", (ushort) 0x0004)]
         public void ParseInstructionForAddress(string instructionString, ushort expectedAddress)
         {
             var instruction = InstructionParser.Parse(instructionString);
