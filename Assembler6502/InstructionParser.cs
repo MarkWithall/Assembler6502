@@ -11,11 +11,12 @@ namespace Assembler6502
             var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
             var opCodeString = normalizedInstruction.Substring(0, 3);
             var addressString = normalizedInstruction.Substring(3);
+            var (mode, address) = ParseAddress(addressString);
 			return new Instruction
 			{
                 Code = ParseOpCode(opCodeString),
-				Mode = ParseAddress(addressString),
-                Address = 0x0001
+				Mode = mode,
+                Address = address
 			};
         }
 
@@ -31,33 +32,33 @@ namespace Assembler6502
             }
         }
 
-        private static AddressingMode ParseAddress(string addressString)
+        private static (AddressingMode, ushort) ParseAddress(string addressString)
         {
             if (addressString == string.Empty)
-                return Implicit;
+                return (Implicit, 0x0000);
 
             switch (addressString[0])
             {
-                case 'A': return Accumulator;
-                case '#': return Immediate;
-                case '*': return Relative;
+                case 'A': return (Accumulator, 0x0000);
+                case '#': return (Immediate, 0x0001);
+                case '*': return (Relative, 0x0002);
                 case '(':
                     if (addressString.EndsWith(",X)", StringComparison.InvariantCulture))
-                        return XIndexedIndirect;
+                        return (XIndexedIndirect, 0x0000);
                     if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
-                        return IndirectYIndexed;
-                    return Indirect;
+                        return (IndirectYIndexed, 0x0000);
+                    return (Indirect, 0x0000);
             }
 
             if (!addressString.Contains(","))
-                return addressString.Length == 3 ? ZeroPage : Absolute;
+                return (addressString.Length == 3 ? ZeroPage : Absolute, 0x0000);
 
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
-                return addressString.Length == 5 ? ZeroPageXIndexed : AbsoluteXIndexed;
+                return (addressString.Length == 5 ? ZeroPageXIndexed : AbsoluteXIndexed, 0x0000);
             if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
-                return addressString.Length == 5 ? ZeroPageYIndexed : AbsoluteYIndexed;
+                return (addressString.Length == 5 ? ZeroPageYIndexed : AbsoluteYIndexed, 0x0000);
 
-            return Unknown;
+            return (Unknown, 0x0000);
         }
     }
 }
