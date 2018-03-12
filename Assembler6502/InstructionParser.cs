@@ -20,12 +20,16 @@ namespace Assembler6502
         {
             if (addressString == string.Empty)
                 return Implicit;
+
             switch (addressString[0])
             {
                 case 'A': return Accumulator;
                 case '#': return Immediate;
                 case '*': return Relative;
             }
+
+            if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
+                return AbsoluteXIndexed;
 
             return Absolute;
         }

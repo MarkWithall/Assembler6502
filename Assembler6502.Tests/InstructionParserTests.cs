@@ -13,6 +13,7 @@ namespace Assembler6502.Tests
         [TestCase("lda #$42", LDA, Immediate)]
         [TestCase("bne *$42", BNE, Relative)]
         [TestCase("sta $4242", STA, Absolute)]
+        [TestCase("and $4242,X", AND, AbsoluteXIndexed)]
         public void ParseInstruction(string instructionString, OpCode expectedOpCode, AddressingMode expectedAddressingMode)
         {
             var instruction = InstructionParser.Parse(instructionString);
