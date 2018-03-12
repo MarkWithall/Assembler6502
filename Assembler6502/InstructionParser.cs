@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using static Assembler6502.AddressingMode;
 
 namespace Assembler6502
@@ -7,8 +8,9 @@ namespace Assembler6502
     {
         public static Instruction Parse(string instruction)
 		{
-            var opCodeString = instruction.TrimStart().Substring(0, 3).ToUpperInvariant();
-            var addressString = instruction.Trim().Replace(" ", "").Replace("\t", "").Substring(3).ToUpperInvariant();
+            var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
+            var opCodeString = normalizedInstruction.Substring(0, 3);
+            var addressString = normalizedInstruction.Substring(3);
 			return new Instruction
 			{
                 Code = ParseOpCode(opCodeString),
