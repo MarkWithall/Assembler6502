@@ -53,8 +53,9 @@ namespace Assembler6502
             if (!addressString.Contains(","))
                 return (addressString.Length == 3 ? ZeroPage : Absolute, ParseNumber(addressString));
 
-            if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
-                return (addressString.Length == 5 ? ZeroPageXIndexed : AbsoluteXIndexed, 0x0000);
+            var xIndexMatch = Regex.Match(addressString, @"^(.*),X");
+            if (xIndexMatch.Success)
+                return (addressString.Length == 5 ? ZeroPageXIndexed : AbsoluteXIndexed, ParseNumber(xIndexMatch.Groups[1].Value));
             if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
                 return (addressString.Length == 5 ? ZeroPageYIndexed : AbsoluteYIndexed, 0x0000);
 
