@@ -40,7 +40,11 @@ namespace Assembler6502
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
                 return parts[0].Length == 3 ? ZeroPageXIndexed : AbsoluteXIndexed;
             if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
-                return parts[0].Length == 3 ? ZeroPageYIndexed :AbsoluteYIndexed;
+            {
+                if (addressString[0] == '(')
+                    return IndirectYIndexed;
+                return parts[0].Length == 3 ? ZeroPageYIndexed : AbsoluteYIndexed;
+            }
 
             return XIndexedIndirect;
         }
