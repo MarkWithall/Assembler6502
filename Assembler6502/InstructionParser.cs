@@ -41,7 +41,7 @@ namespace Assembler6502
             {
                 case 'A': return (Accumulator, 0x0000);
                 case '#': return (Immediate, ParseNumber(addressString.Substring(1)));
-                case '*': return (Relative, 0x0002);
+                case '*': return (Relative, ParseNumber(addressString.Substring(1)));
                 case '(':
                     if (addressString.EndsWith(",X)", StringComparison.InvariantCulture))
                         return (XIndexedIndirect, 0x0000);
