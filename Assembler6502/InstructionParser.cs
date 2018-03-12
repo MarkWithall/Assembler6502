@@ -30,6 +30,8 @@ namespace Assembler6502
 
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
                 return AbsoluteXIndexed;
+            if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
+                return AbsoluteYIndexed;
 
             return Absolute;
         }
