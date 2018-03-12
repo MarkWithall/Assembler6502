@@ -1,4 +1,5 @@
 ﻿using System;
+using static Assembler6502.AddressingMode;
 
 namespace Assembler6502
 {
@@ -18,14 +19,14 @@ namespace Assembler6502
         private static AddressingMode ParseAddress(string addressString)
         {
             if (addressString == string.Empty)
-                return AddressingMode.Implicit;
+                return Implicit;
             switch (addressString[0])
             {
-                case 'A': return AddressingMode.Accumulator;
-                case '#': return AddressingMode.Immediate;
+                case 'A': return Accumulator;
+                case '#': return Immediate;
             }
 
-            return AddressingMode.Relative;
+            return Relative;
         }
     }
 }
