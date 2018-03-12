@@ -8,7 +8,7 @@ namespace Assembler6502
         public static Instruction Parse(string instruction)
 		{
             var opCodeString = instruction.TrimStart().Substring(0, 3).ToUpperInvariant();
-            var addressString = instruction.Trim().Replace(" ", "").Substring(3).ToUpperInvariant();
+            var addressString = instruction.Trim().Replace(" ", "").Replace("\t", "").Substring(3).ToUpperInvariant();
 			return new Instruction
 			{
                 Code = ParseOpCode(opCodeString),
