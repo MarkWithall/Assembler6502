@@ -16,6 +16,7 @@ namespace Assembler6502.Tests
         [TestCase("and $4242,X", AND, AbsoluteXIndexed)]
         [TestCase("ldx $4242,Y", LDX, AbsoluteYIndexed)]
         [TestCase("eor $42", EOR, ZeroPage)]
+        [TestCase("ror $42,X", ROR, ZeroPageXIndexed)]
         public void ParseInstruction(string instructionString, OpCode expectedOpCode, AddressingMode expectedAddressingMode)
         {
             var instruction = InstructionParser.Parse(instructionString);

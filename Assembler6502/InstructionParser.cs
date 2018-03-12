@@ -28,11 +28,13 @@ namespace Assembler6502
                 case '*': return Relative;
             }
 
-            if (addressString.Length == 3)
-                return ZeroPage;
+            var parts = addressString.Split(',');
+
+            if (parts.Length == 1)
+                return addressString.Length == 3 ? ZeroPage : Absolute;
 
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
-                return AbsoluteXIndexed;
+                return parts[0].Length == 3 ? ZeroPageXIndexed : AbsoluteXIndexed;
             if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
                 return AbsoluteYIndexed;
 
