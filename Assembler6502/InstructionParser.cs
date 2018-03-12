@@ -40,7 +40,7 @@ namespace Assembler6502
             switch (addressString[0])
             {
                 case 'A': return (Accumulator, 0x0000);
-                case '#': return (Immediate, 0x0001);
+                case '#': return (Immediate, ParseNumber(addressString.Substring(1)));
                 case '*': return (Relative, 0x0002);
                 case '(':
                     if (addressString.EndsWith(",X)", StringComparison.InvariantCulture))
@@ -59,6 +59,11 @@ namespace Assembler6502
                 return (addressString.Length == 5 ? ZeroPageYIndexed : AbsoluteYIndexed, 0x0000);
 
             return (Unknown, 0x0000);
+        }
+
+        private static ushort ParseNumber(string numberString)
+        {
+            return Convert.ToUInt16(numberString.Substring(1), 16);
         }
     }
 }
