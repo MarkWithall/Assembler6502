@@ -11,6 +11,7 @@ namespace Assembler6502.Tests
         [TestCase("rts", RTS, Implicit)]
         [TestCase("asl a", ASL, Accumulator)]
         [TestCase("lda #$42", LDA, Immediate)]
+        [TestCase("bne *$42", BNE, Relative)]
         public void ParseInstruction(string instructionString, OpCode expectedOpCode, AddressingMode expectedAddressingMode)
         {
             var instruction = InstructionParser.Parse(instructionString);

@@ -19,7 +19,13 @@ namespace Assembler6502
         {
             if (addressString == string.Empty)
                 return AddressingMode.Implicit;
-            return addressString == "A" ? AddressingMode.Accumulator : AddressingMode.Immediate;
+            switch (addressString[0])
+            {
+                case 'A': return AddressingMode.Accumulator;
+                case '#': return AddressingMode.Immediate;
+            }
+
+            return AddressingMode.Relative;
         }
     }
 }
