@@ -34,5 +34,12 @@ namespace Assembler6502.Tests
                 Assert.That(instruction.Mode, Is.EqualTo(expectedAddressingMode));
             });
         }
+
+        [TestCase("lda #$01", (ushort) 0x0001)]
+        public void ParseInstructionForAddress(string instructionString, ushort expectedAddress)
+        {
+            var instruction = InstructionParser.Parse(instructionString);
+            Assert.AreEqual(expectedAddress, instruction.Address);
+        }
     }
 }

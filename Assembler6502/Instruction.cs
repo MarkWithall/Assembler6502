@@ -4,5 +4,6 @@
     {
         public OpCode Code { get; set; }
         public AddressingMode Mode { get; set; }
+        public ushort Address { get; set; }
     }
 }

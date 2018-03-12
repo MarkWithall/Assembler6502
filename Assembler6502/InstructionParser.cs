@@ -14,7 +14,8 @@ namespace Assembler6502
 			return new Instruction
 			{
                 Code = ParseOpCode(opCodeString),
-				Mode = ParseAddress(addressString)
+				Mode = ParseAddress(addressString),
+                Address = 0x0001
 			};
         }
 
