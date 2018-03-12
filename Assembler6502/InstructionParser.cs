@@ -36,27 +36,23 @@ namespace Assembler6502
                 case 'A': return Accumulator;
                 case '#': return Immediate;
                 case '*': return Relative;
+                case '(':
+                    if (addressString.EndsWith(",X)", StringComparison.InvariantCulture))
+                        return XIndexedIndirect;
+                    if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
+                        return IndirectYIndexed;
+                    return Indirect;
             }
 
             var parts = addressString.Split(',');
 
             if (parts.Length == 1)
-            {
-                if (addressString[0] == '(')
-                    return Indirect;
                 return addressString.Length == 3 ? ZeroPage : Absolute;
-            }
 
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
                 return parts[0].Length == 3 ? ZeroPageXIndexed : AbsoluteXIndexed;
             if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
-            {
-                if (addressString[0] == '(')
-                    return IndirectYIndexed;
                 return parts[0].Length == 3 ? ZeroPageYIndexed : AbsoluteYIndexed;
-            }
-            if (addressString.EndsWith(",X)", StringComparison.InvariantCulture))
-                return XIndexedIndirect;
 
             return Unknown;
         }
