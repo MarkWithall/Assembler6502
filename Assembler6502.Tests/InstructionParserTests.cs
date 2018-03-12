@@ -18,6 +18,7 @@ namespace Assembler6502.Tests
         [TestCase("eor $42", EOR, ZeroPage)]
         [TestCase("ror $42,X", ROR, ZeroPageXIndexed)]
         [TestCase("ldx $42,Y", LDX, ZeroPageYIndexed)]
+        [TestCase("jmp ($4242)", JMP, Indirect)]
         public void ParseInstruction(string instructionString, OpCode expectedOpCode, AddressingMode expectedAddressingMode)
         {
             var instruction = InstructionParser.Parse(instructionString);

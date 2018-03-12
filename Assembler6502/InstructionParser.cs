@@ -31,7 +31,11 @@ namespace Assembler6502
             var parts = addressString.Split(',');
 
             if (parts.Length == 1)
+            {
+                if (addressString[0] == '(')
+                    return Indirect;
                 return addressString.Length == 3 ? ZeroPage : Absolute;
+            }
 
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
                 return parts[0].Length == 3 ? ZeroPageXIndexed : AbsoluteXIndexed;
