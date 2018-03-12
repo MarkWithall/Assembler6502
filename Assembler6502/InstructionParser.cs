@@ -1,4 +1,6 @@
-﻿namespace Assembler6502
+﻿using System;
+
+namespace Assembler6502
 {
     public static class InstructionParser
     {
@@ -6,7 +8,7 @@
         {
             return new Instruction
             {
-                Code = OpCode.BRK,
+                Code = Enum.Parse<OpCode>(instruction.ToUpperInvariant()),
                 Mode = AddressingMode.Implicit
             };
         }

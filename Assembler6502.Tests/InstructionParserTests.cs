@@ -8,6 +8,7 @@ namespace Assembler6502.Tests
     public class InstructionParserTests
     {
         [TestCase("brk", BRK, Implicit)]
+        [TestCase("rts", RTS, Implicit)]
         public void ParseInstruction(string instructionString, OpCode expectedOpCode, AddressingMode expectedAddressingMode)
         {
             var instruction = InstructionParser.Parse(instructionString);
