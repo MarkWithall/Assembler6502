@@ -8,10 +8,20 @@ namespace Assembler6502
         public static Instruction Parse(string instruction)
         {
             var opCodeString = instruction.Substring(0, 3).ToUpperInvariant();
+            OpCode code;
+            try
+            {
+                code = Enum.Parse<OpCode>(opCodeString);
+            }
+            catch (ArgumentException)
+            {
+                code = OpCode.Unknown;
+            }
+
             var addressString = instruction.Replace(" ", "").Substring(3).ToUpperInvariant();
             return new Instruction
             {
-                Code = Enum.Parse<OpCode>(opCodeString),
+                Code = code,
                 Mode = ParseAddress(addressString)
             };
         }
