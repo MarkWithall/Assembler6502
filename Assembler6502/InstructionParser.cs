@@ -50,16 +50,19 @@ namespace Assembler6502
                     return (Indirect, 0x0000);
             }
 
-            if (!addressString.Contains(","))
-                return (addressString.Length == 3 ? ZeroPage : Absolute, ParseNumber(addressString));
+            if (Regex.IsMatch(addressString, @"^\$\d+$"))
+            {
+				var address = ParseNumber(addressString);
+                return (address < 256 ? ZeroPage : Absolute, address);
+            }
 
-            var xIndexMatch = Regex.Match(addressString, @"^(.*),X");
+            var xIndexMatch = Regex.Match(addressString, @"^(.*),X$");
             if (xIndexMatch.Success)
             {
                 var address = ParseNumber(xIndexMatch.Groups[1].Value);
                 return (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address);
             }
-            var yIndexMatch = Regex.Match(addressString, @"^(.*),Y");
+            var yIndexMatch = Regex.Match(addressString, @"^(.*),Y$");
             if (yIndexMatch.Success)
             {
                 var address = ParseNumber(yIndexMatch.Groups[1].Value);
