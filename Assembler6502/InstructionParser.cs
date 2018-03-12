@@ -24,9 +24,10 @@ namespace Assembler6502
             {
                 case 'A': return Accumulator;
                 case '#': return Immediate;
+                case '*': return Relative;
             }
 
-            return Relative;
+            return Absolute;
         }
     }
 }
