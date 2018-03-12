@@ -6,24 +6,26 @@ namespace Assembler6502
     public static class InstructionParser
     {
         public static Instruction Parse(string instruction)
-        {
+		{
             var opCodeString = instruction.Substring(0, 3).ToUpperInvariant();
-            OpCode code;
+            var addressString = instruction.Replace(" ", "").Substring(3).ToUpperInvariant();
+			return new Instruction
+			{
+                Code = ParseOpCode(opCodeString),
+				Mode = ParseAddress(addressString)
+			};
+        }
+
+        private static OpCode ParseOpCode(string opCodeString)
+        {
             try
             {
-                code = Enum.Parse<OpCode>(opCodeString);
+                return Enum.Parse<OpCode>(opCodeString);
             }
             catch (ArgumentException)
             {
-                code = OpCode.Unknown;
+                return OpCode.Unknown;
             }
-
-            var addressString = instruction.Replace(" ", "").Substring(3).ToUpperInvariant();
-            return new Instruction
-            {
-                Code = code,
-                Mode = ParseAddress(addressString)
-            };
         }
 
         private static AddressingMode ParseAddress(string addressString)
