@@ -28,6 +28,9 @@ namespace Assembler6502
                 case '*': return Relative;
             }
 
+            if (addressString.Length == 3)
+                return ZeroPage;
+
             if (addressString.EndsWith(",X", StringComparison.InvariantCulture))
                 return AbsoluteXIndexed;
             if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
