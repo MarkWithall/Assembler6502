@@ -7,17 +7,17 @@ namespace Assembler6502
     public static class InstructionParser
     {
         public static Instruction Parse(string instruction)
-		{
+        {
             var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
             var opCodeString = normalizedInstruction.Substring(0, 3);
             var addressString = normalizedInstruction.Substring(3);
             var (mode, address) = ParseAddress(addressString);
-			return new Instruction
-			{
+            return new Instruction
+            {
                 Code = ParseOpCode(opCodeString),
-				Mode = mode,
+                Mode = mode,
                 Address = address
-			};
+            };
         }
 
         private static OpCode ParseOpCode(string opCodeString)
