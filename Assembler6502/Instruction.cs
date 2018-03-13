@@ -17,7 +17,7 @@ namespace Assembler6502
             {
                 yield return Instructions[(Code, Mode)];
                 if (Mode == Immediate)
-                    yield return 0x00;
+                    yield return (byte) Address;
             }
         }
 
