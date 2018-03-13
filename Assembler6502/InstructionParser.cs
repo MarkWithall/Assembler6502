@@ -49,8 +49,9 @@ namespace Assembler6502
                     var xIndexedIndirectMatch = Regex.Match(addressString, @"^\((\$\w+),X\)$");
                     if (xIndexedIndirectMatch.Success)
                         return (XIndexedIndirect, ParseNumber(xIndexedIndirectMatch.Groups[1].Value));
-                    if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
-                        return (IndirectYIndexed, 0x0000);
+                    var indirectYIndexedMatch = Regex.Match(addressString, @"^\((\$\w+)\),Y$");
+                    if (indirectYIndexedMatch.Success)
+                        return (IndirectYIndexed, ParseNumber(indirectYIndexedMatch.Groups[1].Value));
                     break;
             }
 
