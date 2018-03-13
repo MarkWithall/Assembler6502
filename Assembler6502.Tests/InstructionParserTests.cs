@@ -27,7 +27,8 @@ namespace Assembler6502.Tests
         [TestCase("xxx $4242", OpCode.Unknown, Absolute, (ushort) 0x4242)]
         [TestCase("xxx ,,,,", OpCode.Unknown, AddressingMode.Unknown, (ushort) 0x0000)]
         [TestCase(" cmp  ($42),Y ", CMP, IndirectYIndexed, (ushort) 0x0042)]
-        [TestCase("\tasl\ta\t", ASL, Accumulator, (ushort) 0x0000)]
+        [TestCase("\tasl\ta\t", ASL, Accumulator, (ushort)0x0000)]
+        [TestCase("kdsjhfkajhdfkajshdfkajhsdf", OpCode.Unknown, AddressingMode.Unknown, (ushort) 0x0000)]
         public void ParseInstruction(
             string instructionString,
             OpCode expectedOpCode,
