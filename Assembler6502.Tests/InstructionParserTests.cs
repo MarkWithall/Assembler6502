@@ -45,6 +45,7 @@ namespace Assembler6502.Tests
         [TestCase("eor $07", (ushort) 0x0007)]
         [TestCase("ror $08,X", (ushort) 0x0008)]
         [TestCase("ldx $09,Y", (ushort) 0x0009)]
+        [TestCase("jmp ($000A)", (ushort) 0x000A)]
         public void ParseInstructionForAddress(string instructionString, ushort expectedAddress)
         {
             var instruction = InstructionParser.Parse(instructionString);

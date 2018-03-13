@@ -43,11 +43,14 @@ namespace Assembler6502
                 case '#': return (Immediate, ParseNumber(addressString.Substring(1)));
                 case '*': return (Relative, ParseNumber(addressString.Substring(1)));
                 case '(':
+                    var indirectMatch = Regex.Match(addressString, @"^\((\$\w+)\)$");
+                    if (indirectMatch.Success)
+                        return (Indirect, ParseNumber(indirectMatch.Groups[1].Value));
                     if (addressString.EndsWith(",X)", StringComparison.InvariantCulture))
                         return (XIndexedIndirect, 0x0000);
                     if (addressString.EndsWith(",Y", StringComparison.InvariantCulture))
                         return (IndirectYIndexed, 0x0000);
-                    return (Indirect, 0x0000);
+                    break;
             }
 
             if (Regex.IsMatch(addressString, @"^\$\d+$"))
