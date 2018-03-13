@@ -10,6 +10,7 @@ namespace Assembler6502.Tests
     {
         [TestCase(BRK, Implicit, (ushort) 0x0000, new byte[] {0x00})]
         [TestCase(RTS, Implicit, (ushort) 0x0000, new byte[] {0x60})]
+        [TestCase(LDA, Immediate, (ushort) 0x0000, new byte[] {0xA9, 0x00})]
         public void Bytes(OpCode code, AddressingMode mode, ushort address, byte[] expectedBytes)
         {
             var instruciton = new Instruction

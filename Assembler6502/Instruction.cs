@@ -16,6 +16,8 @@ namespace Assembler6502
             get
             {
                 yield return Instructions[(Code, Mode)];
+                if (Mode == Immediate)
+                    yield return 0x00;
             }
         }
 
