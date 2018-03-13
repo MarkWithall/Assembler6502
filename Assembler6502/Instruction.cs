@@ -18,7 +18,7 @@ namespace Assembler6502
                 yield return Instructions[(Code, Mode)];
                 if (Mode == Immediate || Mode == Relative)
                     yield return (byte)Address;
-                else if (Mode == Absolute)
+                else if (Mode == Absolute || Mode == AbsoluteXIndexed)
                 {
                     yield return (byte)Address;
                     yield return (byte)(Address >> 8);
