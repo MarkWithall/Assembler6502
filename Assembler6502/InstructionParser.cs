@@ -44,7 +44,7 @@ namespace Assembler6502
             var match = AddressRegex.Match(addressString);
             if (match.Success)
             {
-                var address = ParseNumber(match.Groups["address"].Value);
+                var address = Convert.ToUInt16(match.Groups["address"].Value.Substring(1), 16);
                 var modeString = match.Groups["pre"].Value + match.Groups["post"].Value;
 
                 switch (modeString)
@@ -61,11 +61,6 @@ namespace Assembler6502
             }
 
             return (Unknown, 0x0000);
-        }
-
-        private static ushort ParseNumber(string numberString)
-        {
-            return Convert.ToUInt16(numberString.Substring(1), 16);
         }
     }
 }
