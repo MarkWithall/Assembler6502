@@ -32,13 +32,7 @@ namespace Assembler6502
             }
         }
 
-        private static readonly Regex ImmediateRegex = new Regex(@"^#(?<address>\$\w+)$", RegexOptions.Compiled);
-        private static readonly Regex RelativeRegex = new Regex(@"^\*(?<address>\$\w+)$", RegexOptions.Compiled);
-        private static readonly Regex AbsoluteAndZeroPageRegex = new Regex(@"^\$\w+$", RegexOptions.Compiled);
-        private static readonly Regex IndexedRegex = new Regex(@"^(?<address>\$\w+),(?<index>[XY])$", RegexOptions.Compiled);
-        private static readonly Regex IndirectRegex = new Regex(@"^\((?<address>\$\w+)\)$", RegexOptions.Compiled);
-        private static readonly Regex XIndexedIndirectRegex = new Regex(@"^\((?<address>\$\w+),X\)$", RegexOptions.Compiled);
-        private static readonly Regex IndirectYIndexedRegex = new Regex(@"^\((?<address>\$\w+)\),Y$", RegexOptions.Compiled);
+        private static readonly Regex AddressRegex = new Regex(@"^(?<pre>.*)(?<address>\$[0-9A-F]{2,4})(?<post>.*)$", RegexOptions.Compiled);
 
         private static (AddressingMode, ushort) ParseAddress(string addressString)
         {
@@ -48,40 +42,24 @@ namespace Assembler6502
             if (addressString == "A")
                 return (Accumulator, 0x0000);
 
-            var immediateMatch = ImmediateRegex.Match(addressString);
-            if (immediateMatch.Success)
-                return (Immediate, ParseNumber(immediateMatch.Groups["address"].Value));
-
-            var relativeMatch = RelativeRegex.Match(addressString);
-            if (relativeMatch.Success)
-                return (Relative, ParseNumber(relativeMatch.Groups["address"].Value));
-
-            if (AbsoluteAndZeroPageRegex.IsMatch(addressString))
+            var match = AddressRegex.Match(addressString);
+            if (match.Success)
             {
-                var address = ParseNumber(addressString);
-                return (address < 256 ? ZeroPage : Absolute, address);
+                var address = ParseNumber(match.Groups["address"].Value);
+                var modeString = match.Groups["pre"].Value + match.Groups["post"].Value;
+
+                switch (modeString)
+                {
+                    case "#": return (Immediate, address);
+                    case "*": return (Relative, address);
+                    case "": return (address < 256 ? ZeroPage : Absolute, address);
+                    case ",X": return (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address);
+                    case ",Y": return (address < 256 ? ZeroPageYIndexed : AbsoluteYIndexed, address);
+                    case "()": return (Indirect, address);
+                    case "(,X)": return (XIndexedIndirect, address);
+                    case "(),Y": return (IndirectYIndexed, address);
+                }
             }
-
-            var indexMatch = IndexedRegex.Match(addressString);
-            if (indexMatch.Success)
-            {
-                var address = ParseNumber(indexMatch.Groups["address"].Value);
-                return indexMatch.Groups["index"].Value == "X"
-                    ? (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address)
-                    : (address < 256 ? ZeroPageYIndexed : AbsoluteYIndexed, address);
-            }
-
-            var indirectMatch = IndirectRegex.Match(addressString);
-            if (indirectMatch.Success)
-                return (Indirect, ParseNumber(indirectMatch.Groups["address"].Value));
-
-            var xIndexedIndirectMatch = XIndexedIndirectRegex.Match(addressString);
-            if (xIndexedIndirectMatch.Success)
-                return (XIndexedIndirect, ParseNumber(xIndexedIndirectMatch.Groups["address"].Value));
-
-            var indirectYIndexedMatch = IndirectYIndexedRegex.Match(addressString);
-            if (indirectYIndexedMatch.Success)
-                return (IndirectYIndexed, ParseNumber(indirectYIndexedMatch.Groups["address"].Value));
 
             return (Unknown, 0x0000);
         }
