@@ -56,20 +56,17 @@ namespace Assembler6502
             if (relativeMatch.Success)
                 return (Relative, ParseNumber(relativeMatch.Groups["address"].Value));
 
-            switch (addressString[0])
-            {
-                case '(':
-                    var indirectMatch = IndirectRegex.Match(addressString);
-                    if (indirectMatch.Success)
-                        return (Indirect, ParseNumber(indirectMatch.Groups["address"].Value));
-                    var xIndexedIndirectMatch = XIndexedIndirectRegex.Match(addressString);
-                    if (xIndexedIndirectMatch.Success)
-                        return (XIndexedIndirect, ParseNumber(xIndexedIndirectMatch.Groups["address"].Value));
-                    var indirectYIndexedMatch = IndirectYIndexedRegex.Match(addressString);
-                    if (indirectYIndexedMatch.Success)
-                        return (IndirectYIndexed, ParseNumber(indirectYIndexedMatch.Groups["address"].Value));
-                    break;
-            }
+            var indirectMatch = IndirectRegex.Match(addressString);
+            if (indirectMatch.Success)
+                return (Indirect, ParseNumber(indirectMatch.Groups["address"].Value));
+
+            var xIndexedIndirectMatch = XIndexedIndirectRegex.Match(addressString);
+            if (xIndexedIndirectMatch.Success)
+                return (XIndexedIndirect, ParseNumber(xIndexedIndirectMatch.Groups["address"].Value));
+
+            var indirectYIndexedMatch = IndirectYIndexedRegex.Match(addressString);
+            if (indirectYIndexedMatch.Success)
+                return (IndirectYIndexed, ParseNumber(indirectYIndexedMatch.Groups["address"].Value));
 
             if (AbsoluteAndZeroPageRegex.IsMatch(addressString))
             {
