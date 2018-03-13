@@ -43,9 +43,11 @@ namespace Assembler6502
             if (addressString == string.Empty)
                 return (Implicit, 0x0000);
 
+            if (addressString == "A")
+                return (Accumulator, 0x0000);
+
             switch (addressString[0])
             {
-                case 'A': return (Accumulator, 0x0000);
                 case '#': return (Immediate, ParseNumber(addressString.Substring(1)));
                 case '*': return (Relative, ParseNumber(addressString.Substring(1)));
                 case '(':
