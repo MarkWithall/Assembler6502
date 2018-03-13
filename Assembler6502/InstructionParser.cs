@@ -53,7 +53,7 @@ namespace Assembler6502
                     break;
             }
 
-            if (Regex.IsMatch(addressString, @"^\$\d+$"))
+            if (Regex.IsMatch(addressString, @"^\$\w+$"))
             {
 				var address = ParseNumber(addressString);
                 return (address < 256 ? ZeroPage : Absolute, address);

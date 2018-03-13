@@ -43,6 +43,7 @@ namespace Assembler6502.Tests
         [TestCase("and $0005,X", (ushort) 0x0005)]
         [TestCase("ldx $0006,Y", (ushort) 0x0006)]
         [TestCase("eor $07", (ushort) 0x0007)]
+        [TestCase("eor $0B", (ushort) 0x000B)]
         [TestCase("ror $08,X", (ushort) 0x0008)]
         [TestCase("ldx $09,Y", (ushort) 0x0009)]
         [TestCase("jmp ($000A)", (ushort) 0x000A)]
