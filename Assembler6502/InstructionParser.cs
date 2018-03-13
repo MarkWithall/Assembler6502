@@ -32,11 +32,11 @@ namespace Assembler6502
             }
         }
 
+        private static readonly Regex AbsoluteAndZeroPageRegex = new Regex(@"^\$\w+$", RegexOptions.Compiled);
+        private static readonly Regex IndexedRegex = new Regex(@"^(?<address>.*),(?<index>[XY])$", RegexOptions.Compiled);
         private static readonly Regex IndirectRegex = new Regex(@"^\((?<address>\$\w+)\)$", RegexOptions.Compiled);
         private static readonly Regex XIndexedIndirectRegex = new Regex(@"^\((?<address>\$\w+),X\)$", RegexOptions.Compiled);
         private static readonly Regex IndirectYIndexedRegex = new Regex(@"^\((?<address>\$\w+)\),Y$", RegexOptions.Compiled);
-        private static readonly Regex AbsoluteAndZeroPageRegex = new Regex(@"^\$\w+$", RegexOptions.Compiled);
-        private static readonly Regex IndexedRegex = new Regex(@"^(?<address>.*),(?<index>[XY])$", RegexOptions.Compiled);
 
         private static (AddressingMode, ushort) ParseAddress(string addressString)
         {
