@@ -15,6 +15,7 @@ namespace Assembler6502.Tests
         [TestCase(BNE, Relative, (ushort) 0x0002, new byte[] {0xD0, 0x02})]
         [TestCase(STA, Absolute, (ushort) 0x0104, new byte[] {0x8D, 0x04, 0x01})]
         [TestCase(AND, AbsoluteXIndexed, (ushort) 0x0105, new byte[] {0x3D, 0x05, 0x01})]
+        [TestCase(LDX, AbsoluteYIndexed, (ushort) 0x0106, new byte[] {0xBE, 0x06, 0x01})]
         public void Bytes(OpCode code, AddressingMode mode, ushort address, byte[] expectedBytes)
         {
             var instruciton = new Instruction
