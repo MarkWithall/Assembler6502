@@ -32,6 +32,7 @@ namespace Assembler6502
             }
         }
 
+        private static readonly Regex ImmediateRegex = new Regex(@"^#(?<address>\$\w+)$", RegexOptions.Compiled);
         private static readonly Regex AbsoluteAndZeroPageRegex = new Regex(@"^\$\w+$", RegexOptions.Compiled);
         private static readonly Regex IndexedRegex = new Regex(@"^(?<address>.*),(?<index>[XY])$", RegexOptions.Compiled);
         private static readonly Regex IndirectRegex = new Regex(@"^\((?<address>\$\w+)\)$", RegexOptions.Compiled);
@@ -46,9 +47,12 @@ namespace Assembler6502
             if (addressString == "A")
                 return (Accumulator, 0x0000);
 
+            var immediateMatch = ImmediateRegex.Match(addressString);
+            if (immediateMatch.Success)
+                return (Immediate, ParseNumber(immediateMatch.Groups["address"].Value));
+
             switch (addressString[0])
             {
-                case '#': return (Immediate, ParseNumber(addressString.Substring(1)));
                 case '*': return (Relative, ParseNumber(addressString.Substring(1)));
                 case '(':
                     var indirectMatch = IndirectRegex.Match(addressString);
