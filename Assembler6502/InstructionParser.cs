@@ -9,12 +9,11 @@ namespace Assembler6502
         public static Instruction Parse(string instruction)
         {
             var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
-            var opCodeString = normalizedInstruction.Substring(0, 3);
-            var addressString = normalizedInstruction.Substring(3);
-            var (mode, address) = ParseAddress(addressString);
+            var opCode = ParseOpCode(normalizedInstruction.Substring(0, 3));
+            var (mode, address) = ParseAddress(normalizedInstruction.Substring(3));
             return new Instruction
             {
-                Code = ParseOpCode(opCodeString),
+                Code = opCode,
                 Mode = mode,
                 Address = address
             };
