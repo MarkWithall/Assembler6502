@@ -35,7 +35,7 @@ namespace Assembler6502
         private static readonly Regex ImmediateRegex = new Regex(@"^#(?<address>\$\w+)$", RegexOptions.Compiled);
         private static readonly Regex RelativeRegex = new Regex(@"^\*(?<address>\$\w+)$", RegexOptions.Compiled);
         private static readonly Regex AbsoluteAndZeroPageRegex = new Regex(@"^\$\w+$", RegexOptions.Compiled);
-        private static readonly Regex IndexedRegex = new Regex(@"^(?<address>.*),(?<index>[XY])$", RegexOptions.Compiled);
+        private static readonly Regex IndexedRegex = new Regex(@"^(?<address>\$\w+),(?<index>[XY])$", RegexOptions.Compiled);
         private static readonly Regex IndirectRegex = new Regex(@"^\((?<address>\$\w+)\)$", RegexOptions.Compiled);
         private static readonly Regex XIndexedIndirectRegex = new Regex(@"^\((?<address>\$\w+),X\)$", RegexOptions.Compiled);
         private static readonly Regex IndirectYIndexedRegex = new Regex(@"^\((?<address>\$\w+)\),Y$", RegexOptions.Compiled);
@@ -56,21 +56,9 @@ namespace Assembler6502
             if (relativeMatch.Success)
                 return (Relative, ParseNumber(relativeMatch.Groups["address"].Value));
 
-            var indirectMatch = IndirectRegex.Match(addressString);
-            if (indirectMatch.Success)
-                return (Indirect, ParseNumber(indirectMatch.Groups["address"].Value));
-
-            var xIndexedIndirectMatch = XIndexedIndirectRegex.Match(addressString);
-            if (xIndexedIndirectMatch.Success)
-                return (XIndexedIndirect, ParseNumber(xIndexedIndirectMatch.Groups["address"].Value));
-
-            var indirectYIndexedMatch = IndirectYIndexedRegex.Match(addressString);
-            if (indirectYIndexedMatch.Success)
-                return (IndirectYIndexed, ParseNumber(indirectYIndexedMatch.Groups["address"].Value));
-
             if (AbsoluteAndZeroPageRegex.IsMatch(addressString))
             {
-				var address = ParseNumber(addressString);
+                var address = ParseNumber(addressString);
                 return (address < 256 ? ZeroPage : Absolute, address);
             }
 
@@ -82,6 +70,18 @@ namespace Assembler6502
                     ? (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address)
                     : (address < 256 ? ZeroPageYIndexed : AbsoluteYIndexed, address);
             }
+
+            var indirectMatch = IndirectRegex.Match(addressString);
+            if (indirectMatch.Success)
+                return (Indirect, ParseNumber(indirectMatch.Groups["address"].Value));
+
+            var xIndexedIndirectMatch = XIndexedIndirectRegex.Match(addressString);
+            if (xIndexedIndirectMatch.Success)
+                return (XIndexedIndirect, ParseNumber(xIndexedIndirectMatch.Groups["address"].Value));
+
+            var indirectYIndexedMatch = IndirectYIndexedRegex.Match(addressString);
+            if (indirectYIndexedMatch.Success)
+                return (IndirectYIndexed, ParseNumber(indirectYIndexedMatch.Groups["address"].Value));
 
             return (Unknown, 0x0000);
         }
