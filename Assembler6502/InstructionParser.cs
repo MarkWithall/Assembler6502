@@ -65,10 +65,9 @@ namespace Assembler6502
             if (indexMatch.Success)
             {
                 var address = ParseNumber(indexMatch.Groups[1].Value);
-                if (indexMatch.Groups[2].Value == "X")
-                    return (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address);
-                else
-                    return (address < 256 ? ZeroPageYIndexed : AbsoluteYIndexed, address);
+                return indexMatch.Groups[2].Value == "X"
+                    ? (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address)
+                    : (address < 256 ? ZeroPageYIndexed : AbsoluteYIndexed, address);
             }
 
             return (Unknown, 0x0000);
