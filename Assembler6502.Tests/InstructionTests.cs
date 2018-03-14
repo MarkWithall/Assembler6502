@@ -39,5 +39,12 @@ namespace Assembler6502.Tests
             var instruction = new Instruction {Code = OpCode.Unknown, Mode = Implicit, Address = 0x0000};
             Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
         }
+
+        [Test]
+        public void UnknownAddressingModeThrowsWhenRequestingBytes()
+        {
+            var instruction = new Instruction {Code = BRK, Mode = AddressingMode.Unknown, Address = 0x0000};
+            Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
+        }
     }
 }

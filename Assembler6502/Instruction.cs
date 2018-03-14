@@ -18,6 +18,8 @@ namespace Assembler6502
             {
                 if (Code == OpCode.Unknown)
                     throw new InvalidOperationException("Cannot get bytes for unknown op code");
+                if (Mode == AddressingMode.Unknown)
+                    throw new InvalidOperationException("Cannot get bytes for unknown addressing mode");
 
                 yield return Instructions[(Code, Mode)];
                 if (SingleByteAddressModes.Contains(Mode))
