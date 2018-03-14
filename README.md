@@ -8,6 +8,8 @@ No pull requests for the time being please, as this is currently just a reposito
 
 ## To Build etc.
 
+The following commands should be issued from the root of the project folder.
+
 Restore the nuget package:
 
 `dotnet restore`
@@ -22,4 +24,4 @@ Test the project:
 
 Run the project:
 
-`dotnet run -p Assembler6502/Assembler6502.csproj test.prg`
+`dotnet run -p Assembler6502/Assembler6502.csproj test.asm test.prg`
