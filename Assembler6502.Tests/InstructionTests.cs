@@ -17,6 +17,7 @@ namespace Assembler6502.Tests
         [TestCase(AND, AbsoluteXIndexed, (ushort) 0x0105, new byte[] {0x3D, 0x05, 0x01})]
         [TestCase(LDX, AbsoluteYIndexed, (ushort) 0x0106, new byte[] {0xBE, 0x06, 0x01})]
         [TestCase(EOR, ZeroPage, (ushort) 0x0007, new byte[] {0x45, 0x07})]
+        [TestCase(ROR, ZeroPageXIndexed, (ushort) 0x0008, new byte[] {0x76, 0x08})]
         public void Bytes(OpCode code, AddressingMode mode, ushort address, byte[] expectedBytes)
         {
             var instruciton = new Instruction
