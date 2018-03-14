@@ -40,7 +40,7 @@ namespace Assembler6502.Tests
                 "",
                 "LDA $0380",
                 "LDX $0381",
-                "",
+                "\t",
                 "STA $0381",
                 "STX $0380",
                 "RTS"

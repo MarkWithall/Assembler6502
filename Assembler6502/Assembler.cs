@@ -9,7 +9,7 @@ namespace Assembler6502
         {
             var bytes = new List<byte> {(byte) startingAddress, (byte) (startingAddress >> 8)};
 
-            foreach (var line in sourceCode.Where(l => l != string.Empty))
+            foreach (var line in sourceCode.Where(l => l.Trim() != string.Empty))
             {
                 var instruction = InstructionParser.Parse(line);
                 bytes.AddRange(instruction.Bytes);
