@@ -29,7 +29,8 @@ namespace Assembler6502
         private static readonly ISet<AddressingMode> SingleByteAddressModes = new HashSet<AddressingMode>
         {
             Immediate,
-            Relative
+            Relative,
+            ZeroPage
         };
 
         private static readonly ISet<AddressingMode> TwoByteAddressModes = new HashSet<AddressingMode>
