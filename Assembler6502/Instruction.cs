@@ -16,15 +16,28 @@ namespace Assembler6502
             get
             {
                 yield return Instructions[(Code, Mode)];
-                if (Mode == Immediate || Mode == Relative)
-                    yield return (byte)Address;
-                else if (Mode == Absolute || Mode == AbsoluteXIndexed || Mode == AbsoluteYIndexed)
+                if (SingleByteAddressModes.Contains(Mode))
+                    yield return (byte) Address;
+                else if (TwoByteAddressModes.Contains(Mode))
                 {
-                    yield return (byte)Address;
-                    yield return (byte)(Address >> 8);
+                    yield return (byte) Address;
+                    yield return (byte) (Address >> 8);
                 }
             }
         }
+
+        private static readonly ISet<AddressingMode> SingleByteAddressModes = new HashSet<AddressingMode>
+        {
+            Immediate,
+            Relative
+        };
+
+        private static readonly ISet<AddressingMode> TwoByteAddressModes = new HashSet<AddressingMode>
+        {
+            Absolute,
+            AbsoluteXIndexed,
+            AbsoluteYIndexed
+        };
 
         private static readonly IDictionary<(OpCode, AddressingMode), byte> Instructions =
             new Dictionary<(OpCode, AddressingMode), byte>
