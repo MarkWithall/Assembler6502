@@ -25,3 +25,13 @@ Test the project:
 Run the project:
 
 `dotnet run -p Assembler6502/Assembler6502.csproj test.asm test.prg`
+
+Publish the project:
+
+`dotnet publish -c Release -r osx-x64`
+
+or
+
+`dotnet publish -c Release -r win-x64`
+
+or whatever target from [here](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog).
