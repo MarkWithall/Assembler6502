@@ -39,7 +39,8 @@ namespace Assembler6502
         {
             Absolute,
             AbsoluteXIndexed,
-            AbsoluteYIndexed
+            AbsoluteYIndexed,
+            Indirect
         };
 
         private static readonly IDictionary<(OpCode, AddressingMode), byte> Instructions =
