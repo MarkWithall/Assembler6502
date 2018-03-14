@@ -15,10 +15,11 @@ namespace Assembler6502
 
             var inputFilePath = args[0];
             var outputFilePath = args[1];
+            ushort startingAddress = 0x033C;
 
             var sourceCode = File.ReadAllLines(inputFilePath);
 
-            var binary = Assembler.Assemble(sourceCode, 0x033C);
+            var binary = Assembler.Assemble(sourceCode, startingAddress);
 
             try
             {
