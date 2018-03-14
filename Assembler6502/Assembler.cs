@@ -7,15 +7,15 @@ namespace Assembler6502
     {
         public static byte[] Assemble(string[] sourceCode, ushort startingAddress)
         {
-            var bytes = new List<byte> {(byte) startingAddress, (byte) (startingAddress >> 8)};
+            byte[] addressBytes = {(byte) startingAddress, (byte) (startingAddress >> 8)};
 
-            foreach (var line in sourceCode.Select(StripComments).Where(l => l != string.Empty))
-            {
-                var instruction = InstructionParser.Parse(line);
-                bytes.AddRange(instruction.Bytes);
-            }
+            var sourceBytes = sourceCode
+                .Select(StripComments)
+                .Where(l => l != string.Empty)
+                .Select(InstructionParser.Parse)
+                .SelectMany(i => i.Bytes);
 
-            return bytes.ToArray();
+            return addressBytes.Concat(sourceBytes).ToArray();
         }
 
         private static string StripComments(string line)
