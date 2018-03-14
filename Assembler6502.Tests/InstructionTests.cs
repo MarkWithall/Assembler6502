@@ -21,6 +21,7 @@ namespace Assembler6502.Tests
         [TestCase(LDX, ZeroPageYIndexed, (ushort) 0x0009, new byte[] {0xB6, 0x09})]
         [TestCase(JMP, Indirect, (ushort) 0x010A, new byte[] {0x6C, 0x0A, 0x01})]
         [TestCase(ORA, XIndexedIndirect, (ushort) 0x000C, new byte[] {0x01, 0x0C})]
+        [TestCase(CMP, IndirectYIndexed, (ushort) 0x000D, new byte[] {0xD1, 0x0D})]
         public void Bytes(OpCode code, AddressingMode mode, ushort address, byte[] expectedBytes)
         {
             var instruciton = new Instruction
