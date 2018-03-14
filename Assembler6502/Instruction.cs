@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using static Assembler6502.AddressingMode;
 using static Assembler6502.OpCode;
 
-
 namespace Assembler6502
 {
     public class Instruction
