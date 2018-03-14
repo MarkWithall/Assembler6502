@@ -7,35 +7,28 @@ namespace Assembler6502
     {
         public static int Main(string[] args)
         {
-            if (args.Length != 1)
+            if (args.Length != 2)
             {
-                Console.WriteLine("No output file path specified!");
+                Console.WriteLine("No input/output file paths specified!");
                 return 2;
             }
 
-            var filePath = args[0];
+            var inputFilePath = args[0];
+            var outputFilePath = args[1];
 
-            // Swap 2 bytes in memory
-            string[] sourceCode =
-            {
-                "LDA $0380",
-                "LDX $0381",
-                "STA $0381",
-                "STX $0380",
-                "RTS"
-            };
+            var sourceCode = File.ReadAllLines(inputFilePath);
 
             var binary = Assembler.Assemble(sourceCode, 0x033C);
 
             try
             {
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = new FileStream(outputFilePath, FileMode.Create))
                 using (var writer = new BinaryWriter(stream))
                 {
                     writer.Write(binary);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return 2;
