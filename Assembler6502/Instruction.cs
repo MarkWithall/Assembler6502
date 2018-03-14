@@ -31,7 +31,8 @@ namespace Assembler6502
             Immediate,
             Relative,
             ZeroPage,
-            ZeroPageXIndexed
+            ZeroPageXIndexed,
+            ZeroPageYIndexed
         };
 
         private static readonly ISet<AddressingMode> TwoByteAddressModes = new HashSet<AddressingMode>
