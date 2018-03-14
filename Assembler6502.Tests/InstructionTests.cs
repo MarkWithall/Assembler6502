@@ -32,5 +32,12 @@ namespace Assembler6502.Tests
             };
             CollectionAssert.AreEqual(expectedBytes, instruciton.Bytes.ToArray());
         }
+
+        [Test]
+        public void UnknownOpCodeThrowsWhenRequestingBytes()
+        {
+            var instruction = new Instruction {Code = OpCode.Unknown, Mode = Implicit, Address = 0x0000};
+            Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static Assembler6502.AddressingMode;
 using static Assembler6502.OpCode;
 
@@ -15,6 +16,9 @@ namespace Assembler6502
         {
             get
             {
+                if (Code == OpCode.Unknown)
+                    throw new InvalidOperationException("Cannot get bytes for unknown op code");
+
                 yield return Instructions[(Code, Mode)];
                 if (SingleByteAddressModes.Contains(Mode))
                     yield return (byte) Address;
