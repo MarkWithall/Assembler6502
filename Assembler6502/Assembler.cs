@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Assembler6502
 {
@@ -8,7 +9,7 @@ namespace Assembler6502
         {
             var bytes = new List<byte> {(byte) startingAddress, (byte) (startingAddress >> 8)};
 
-            foreach (var line in sourceCode)
+            foreach (var line in sourceCode.Where(l => l != string.Empty))
             {
                 var instruction = InstructionParser.Parse(line);
                 bytes.AddRange(instruction.Bytes);
