@@ -1,19 +1,20 @@
-﻿namespace Assembler6502
+﻿using System.Collections.Generic;
+
+namespace Assembler6502
 {
     public static class Assembler
     {
         public static byte[] Assemble(string[] sourceCode, ushort startingAddress)
         {
-            byte[] program =
+            var bytes = new List<byte> {(byte) startingAddress, (byte) (startingAddress >> 8)};
+
+            foreach (var line in sourceCode)
             {
-                0x3C, 0x03, // staring memory location (828)
-                0xAD, 0x80, 0x03, // LDA $0380 ; (896)
-                0xAE, 0x81, 0x03, // LDX $0381 ; (897)
-                0x8D, 0x81, 0x03, // STA $0381
-                0x8E, 0x80, 0x03, // STX $0380
-                0x60 // RTS
-            };
-            return program;
+                var instruction = InstructionParser.Parse(line);
+                bytes.AddRange(instruction.Bytes);
+            }
+
+            return bytes.ToArray();
         }
     }
 }
