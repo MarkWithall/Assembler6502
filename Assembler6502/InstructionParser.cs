@@ -24,7 +24,7 @@ namespace Assembler6502
             return Enum.TryParse<OpCode>(opCodeString, out var code) ? code : OpCode.Unknown;
         }
 
-        private static readonly Regex AddressRegex = new Regex(@"^(?<pre>.*)(?<address>\$[0-9A-F]{2,4})(?<post>.*)$", RegexOptions.Compiled);
+        private static readonly Regex AddressRegex = new Regex(@"^(?<pre>.*)(?<address>\$[0-9A-F]{2,4})(?<post>.*)$");
 
         private static (AddressingMode, ushort) ParseAddress(string addressString)
         {
