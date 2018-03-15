@@ -24,8 +24,6 @@ namespace Assembler6502
             return Enum.TryParse<OpCode>(opCodeString, out var code) ? code : OpCode.Unknown;
         }
 
-        private static readonly Regex AddressRegex = new Regex(@"^(?<pre>.*)(?<address>\$[0-9A-F]{2,4})(?<post>.*)$");
-
         private static (AddressingMode, ushort) ParseAddress(string addressString)
         {
             if (addressString == string.Empty)
@@ -34,26 +32,60 @@ namespace Assembler6502
             if (addressString == "A")
                 return (Accumulator, 0x0000);
 
-            var match = AddressRegex.Match(addressString);
-            if (match.Success)
+            try
             {
-                var address = Convert.ToUInt16(match.Groups["address"].Value.Substring(1), 16);
-                var modeString = match.Groups["pre"].Value + match.Groups["post"].Value;
-
-                switch (modeString)
+                switch (addressString)
                 {
-                    case "#": return (Immediate, address);
-                    case "*": return (Relative, address);
-                    case "": return (address < 256 ? ZeroPage : Absolute, address);
-                    case ",X": return (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address);
-                    case ",Y": return (address < 256 ? ZeroPageYIndexed : AbsoluteYIndexed, address);
-                    case "()": return (Indirect, address);
-                    case "(,X)": return (XIndexedIndirect, address);
-                    case "(),Y": return (IndirectYIndexed, address);
+                    case var s when Matches(s, "#", ""):
+                        return (Immediate, ParseNumber(addressString, 1, 0));
+
+                    case var s when Matches(s, "*", ""):
+                        return (Relative, ParseNumber(addressString, 1, 0));
+
+                    case var s when Matches(s, "", ",X"):
+                    {
+                        var address = ParseNumber(addressString, 0, 2);
+                        return (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address);
+                    }
+
+                    case var s when Matches(s, "(", "),Y"):
+                        return (IndirectYIndexed, ParseNumber(addressString, 1, 3));
+
+                    case var s when Matches(s, "(", ",X)"):
+                        return (XIndexedIndirect, ParseNumber(addressString, 1, 3));
+
+                    case var s when Matches(s, "(", ")"):
+                        return (Indirect, ParseNumber(addressString, 1, 1));
+
+                    case var s when Matches(s, "", ",Y"):
+                    {
+                        var address = ParseNumber(addressString, 0, 2);
+                        return (address < 256 ? ZeroPageYIndexed : AbsoluteYIndexed, address);
+                    }
+
+                    default:
+                    {
+                        var address = ParseNumber(addressString, 0, 0);
+                        return (address < 256 ? ZeroPage : Absolute, address);
+                    }
                 }
             }
+            catch
+            {
+                return (Unknown, 0x0000);
+            }
+        }
 
-            return (Unknown, 0x0000);
+        private static bool Matches(string addressString, string prefix, string suffix)
+        {
+            return addressString.StartsWith(prefix) && addressString.EndsWith(suffix);
+        }
+
+        private static ushort ParseNumber(string addressString, int startSkip, int endSkip)
+        {
+            startSkip = startSkip + 1; // also remove $ prefix
+            var numberString = addressString.Substring(startSkip, addressString.Length - (startSkip + endSkip));
+            return Convert.ToUInt16(numberString, 16);
         }
     }
 }
