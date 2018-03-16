@@ -46,6 +46,7 @@ namespace Assembler6502.Tests
 
         [TestCase("BEQ *LABEL", "LABEL")]
         [TestCase("JMP LABEL", "LABEL")]
+        [TestCase("BNE *LABEL_1", "LABEL_1")]
         public void ParseInstructionWithLabel(string instructionString, string expectedAddressString)
         {
             var instruction = InstructionParser.Parse(instructionString);
