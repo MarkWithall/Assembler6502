@@ -34,34 +34,34 @@ namespace Assembler6502
                 case var s when s == "A":
                     return (Accumulator, null);
 
-                case var s when Matches(s, "#", "", out var address):
+                case var s when TryMatch(s, "#", "", out var address):
                     return (Immediate, address);
 
-                case var s when Matches(s, "*", "", out var address):
+                case var s when TryMatch(s, "*", "", out var address):
                     return (Relative, address);
 
-                case var s when Matches(s, "<", ",X", out var address):
+                case var s when TryMatch(s, "<", ",X", out var address):
                     return (ZeroPageXIndexed, address);
 
-                case var s when Matches(s, "", ",X", out var address):
+                case var s when TryMatch(s, "", ",X", out var address):
                     return (AbsoluteXIndexed, address);
 
-                case var s when Matches(s, "(", "),Y", out var address):
+                case var s when TryMatch(s, "(", "),Y", out var address):
                     return (IndirectYIndexed, address);
 
-                case var s when Matches(s, "(", ",X)", out var address):
+                case var s when TryMatch(s, "(", ",X)", out var address):
                     return (XIndexedIndirect, address);
 
-                case var s when Matches(s, "(", ")", out var address):
+                case var s when TryMatch(s, "(", ")", out var address):
                     return (Indirect, address);
 
-                case var s when Matches(s, "<", ",Y", out var address):
+                case var s when TryMatch(s, "<", ",Y", out var address):
                     return (ZeroPageYIndexed, address);
 
-                case var s when Matches(s, "", ",Y", out var address):
+                case var s when TryMatch(s, "", ",Y", out var address):
                     return (AbsoluteYIndexed, address);
 
-                case var s when Matches(s, "<", "", out var address):
+                case var s when TryMatch(s, "<", "", out var address):
                     return (ZeroPage, address);
 
                 case var s when Regex.IsMatch(s, @"^\$[0-9A-Z]{4}$"):
@@ -72,7 +72,7 @@ namespace Assembler6502
             }
         }
 
-        private static bool Matches(string addressString, string prefix, string suffix, out string address)
+        private static bool TryMatch(string addressString, string prefix, string suffix, out string address)
         {
             address = null;
 
