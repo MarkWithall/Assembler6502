@@ -76,7 +76,8 @@ namespace Assembler6502
         {
             address = null;
 
-            if (addressString.StartsWith(prefix) && addressString.EndsWith(suffix))
+            if (addressString.StartsWith(prefix, StringComparison.InvariantCulture) &&
+                addressString.EndsWith(suffix, StringComparison.InvariantCulture))
             {
                 address = ExtractNumber(addressString, prefix.Length, suffix.Length);
                 return true;
