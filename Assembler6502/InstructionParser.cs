@@ -32,47 +32,43 @@ namespace Assembler6502
             if (addressString == "A")
                 return (Accumulator, 0x0000);
 
-            try
+            switch (addressString)
             {
-                switch (addressString)
-                {
-                    case var s when Matches(s, "#", "", out var address):
-                        return (Immediate, address);
+                case var s when Matches(s, "#", "", out var address):
+                    return (Immediate, address);
 
-                    case var s when Matches(s, "*", "", out var address):
-                        return (Relative, address);
+                case var s when Matches(s, "*", "", out var address):
+                    return (Relative, address);
 
-                    case var s when Matches(s, "<", ",X", out var address):
-                        return (ZeroPageXIndexed, address);
+                case var s when Matches(s, "<", ",X", out var address):
+                    return (ZeroPageXIndexed, address);
 
-                    case var s when Matches(s, "", ",X", out var address):
-                        return (AbsoluteXIndexed, address);
+                case var s when Matches(s, "", ",X", out var address):
+                    return (AbsoluteXIndexed, address);
 
-                    case var s when Matches(s, "(", "),Y", out var address):
-                        return (IndirectYIndexed, address);
+                case var s when Matches(s, "(", "),Y", out var address):
+                    return (IndirectYIndexed, address);
 
-                    case var s when Matches(s, "(", ",X)", out var address):
-                        return (XIndexedIndirect, address);
+                case var s when Matches(s, "(", ",X)", out var address):
+                    return (XIndexedIndirect, address);
 
-                    case var s when Matches(s, "(", ")", out var address):
-                        return (Indirect, address);
+                case var s when Matches(s, "(", ")", out var address):
+                    return (Indirect, address);
 
-                    case var s when Matches(s, "<", ",Y", out var address):
-                        return (ZeroPageYIndexed, address);
+                case var s when Matches(s, "<", ",Y", out var address):
+                    return (ZeroPageYIndexed, address);
 
-                    case var s when Matches(s, "", ",Y", out var address):
-                        return (AbsoluteYIndexed, address);
+                case var s when Matches(s, "", ",Y", out var address):
+                    return (AbsoluteYIndexed, address);
 
-                    case var s when Matches(s, "<", "", out var address):
-                        return (ZeroPage, address);
+                case var s when Matches(s, "<", "", out var address):
+                    return (ZeroPage, address);
 
-                    default:
-                        return (Absolute, ParseNumber(addressString, 0, 0));
-                }
-            }
-            catch
-            {
-                return (Unknown, 0x0000);
+                case var s when Regex.IsMatch(s, @"^\$[0-9A-Z]{4}$"):
+                    return (Absolute, ParseNumber(addressString, 0, 0));
+
+                default:
+                    return (Unknown, 0x0000);
             }
         }
 
