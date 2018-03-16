@@ -10,12 +10,12 @@ namespace Assembler6502
         {
             var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
             var opCode = ParseOpCode(normalizedInstruction.Substring(0, 3));
-            var (mode, address) = ParseAddress(normalizedInstruction.Substring(3));
+            var (mode, addressString) = ParseAddress(normalizedInstruction.Substring(3));
             return new Instruction
             {
                 Code = opCode,
                 Mode = mode,
-                Address = address
+                AddressString = addressString
             };
         }
 
@@ -24,13 +24,13 @@ namespace Assembler6502
             return Enum.TryParse<OpCode>(opCodeString, out var code) ? code : OpCode.Unknown;
         }
 
-        private static (AddressingMode, ushort) ParseAddress(string addressString)
+        private static (AddressingMode, string) ParseAddress(string addressString)
         {
             if (addressString == string.Empty)
-                return (Implicit, 0x0000);
+                return (Implicit, null);
 
             if (addressString == "A")
-                return (Accumulator, 0x0000);
+                return (Accumulator, null);
 
             switch (addressString)
             {
@@ -65,31 +65,29 @@ namespace Assembler6502
                     return (ZeroPage, address);
 
                 case var s when Regex.IsMatch(s, @"^\$[0-9A-Z]{4}$"):
-                    return (Absolute, ParseNumber(addressString, 0, 0));
+                    return (Absolute, ExtractNumber(addressString, 0, 0));
 
                 default:
-                    return (Unknown, 0x0000);
+                    return (Unknown, null);
             }
         }
 
-        private static bool Matches(string addressString, string prefix, string suffix, out ushort address)
+        private static bool Matches(string addressString, string prefix, string suffix, out string address)
         {
-            address = 0x0000;
+            address = null;
 
             if (addressString.StartsWith(prefix) && addressString.EndsWith(suffix))
             {
-                address = ParseNumber(addressString, prefix.Length, suffix.Length);
+                address = ExtractNumber(addressString, prefix.Length, suffix.Length);
                 return true;
             }
 
             return false;
         }
 
-        private static ushort ParseNumber(string addressString, int startSkip, int endSkip)
+        private static string ExtractNumber(string addressString, int startSkip, int endSkip)
         {
-            startSkip = startSkip + 1; // also remove $ prefix
-            var numberString = addressString.Substring(startSkip, addressString.Length - (startSkip + endSkip));
-            return Convert.ToUInt16(numberString, 16);
+            return addressString.Substring(startSkip, addressString.Length - (startSkip + endSkip));
         }
     }
 }

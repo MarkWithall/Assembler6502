@@ -9,7 +9,10 @@ namespace Assembler6502
     {
         public OpCode Code { get; set; }
         public AddressingMode Mode { get; set; }
-        public ushort Address { get; set; }
+        public string AddressString { get; set; }
+
+        public ushort Address =>
+            AddressString == null ? (ushort) 0x0000 : Convert.ToUInt16(AddressString.Substring(1), 16);
 
         public IEnumerable<byte> Bytes
         {

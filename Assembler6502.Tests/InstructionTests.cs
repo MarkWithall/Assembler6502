@@ -28,7 +28,7 @@ namespace Assembler6502.Tests
             {
                 Code = code,
                 Mode = mode,
-                Address = address
+                AddressString = $"${address:X4}"
             };
             CollectionAssert.AreEqual(expectedBytes, instruciton.Bytes.ToArray());
         }
@@ -36,14 +36,14 @@ namespace Assembler6502.Tests
         [Test]
         public void UnknownOpCodeThrowsWhenRequestingBytes()
         {
-            var instruction = new Instruction {Code = OpCode.Unknown, Mode = Implicit, Address = 0x0000};
+            var instruction = new Instruction {Code = OpCode.Unknown, Mode = Implicit, AddressString = null};
             Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
         }
 
         [Test]
         public void UnknownAddressingModeThrowsWhenRequestingBytes()
         {
-            var instruction = new Instruction {Code = BRK, Mode = AddressingMode.Unknown, Address = 0x0000};
+            var instruction = new Instruction {Code = BRK, Mode = AddressingMode.Unknown, AddressString = null};
             Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
         }
     }
