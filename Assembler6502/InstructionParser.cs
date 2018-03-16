@@ -36,32 +36,26 @@ namespace Assembler6502
             {
                 switch (addressString)
                 {
-                    case var s when Matches(s, "#", ""):
-                        return (Immediate, ParseNumber(addressString, 1, 0));
+                    case var s when Matches(s, "#", "", out var address):
+                        return (Immediate, address);
 
-                    case var s when Matches(s, "*", ""):
-                        return (Relative, ParseNumber(addressString, 1, 0));
+                    case var s when Matches(s, "*", "", out var address):
+                        return (Relative, address);
 
-                    case var s when Matches(s, "", ",X"):
-                    {
-                        var address = ParseNumber(addressString, 0, 2);
+                    case var s when Matches(s, "", ",X", out var address):
                         return (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address);
-                    }
 
-                    case var s when Matches(s, "(", "),Y"):
-                        return (IndirectYIndexed, ParseNumber(addressString, 1, 3));
+                    case var s when Matches(s, "(", "),Y", out var address):
+                        return (IndirectYIndexed, address);
 
-                    case var s when Matches(s, "(", ",X)"):
-                        return (XIndexedIndirect, ParseNumber(addressString, 1, 3));
+                    case var s when Matches(s, "(", ",X)", out var address):
+                        return (XIndexedIndirect, address);
 
-                    case var s when Matches(s, "(", ")"):
-                        return (Indirect, ParseNumber(addressString, 1, 1));
+                    case var s when Matches(s, "(", ")", out var address):
+                        return (Indirect, address);
 
-                    case var s when Matches(s, "", ",Y"):
-                    {
-                        var address = ParseNumber(addressString, 0, 2);
+                    case var s when Matches(s, "", ",Y", out var address):
                         return (address < 256 ? ZeroPageYIndexed : AbsoluteYIndexed, address);
-                    }
 
                     default:
                     {
@@ -76,9 +70,17 @@ namespace Assembler6502
             }
         }
 
-        private static bool Matches(string addressString, string prefix, string suffix)
+        private static bool Matches(string addressString, string prefix, string suffix, out ushort address)
         {
-            return addressString.StartsWith(prefix) && addressString.EndsWith(suffix);
+            address = 0x0000;
+
+            if (addressString.StartsWith(prefix) && addressString.EndsWith(suffix))
+            {
+                address = ParseNumber(addressString, prefix.Length, suffix.Length);
+                return true;
+            }
+
+            return false;
         }
 
         private static ushort ParseNumber(string addressString, int startSkip, int endSkip)
