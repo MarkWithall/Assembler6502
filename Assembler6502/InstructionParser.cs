@@ -42,8 +42,11 @@ namespace Assembler6502
                     case var s when Matches(s, "*", "", out var address):
                         return (Relative, address);
 
+                    case var s when Matches(s, "<", ",X", out var address):
+                        return (ZeroPageXIndexed, address);
+
                     case var s when Matches(s, "", ",X", out var address):
-                        return (address < 256 ? ZeroPageXIndexed : AbsoluteXIndexed, address);
+                        return (AbsoluteXIndexed, address);
 
                     case var s when Matches(s, "(", "),Y", out var address):
                         return (IndirectYIndexed, address);
@@ -54,14 +57,17 @@ namespace Assembler6502
                     case var s when Matches(s, "(", ")", out var address):
                         return (Indirect, address);
 
+                    case var s when Matches(s, "<", ",Y", out var address):
+                        return (ZeroPageYIndexed, address);
+
                     case var s when Matches(s, "", ",Y", out var address):
-                        return (address < 256 ? ZeroPageYIndexed : AbsoluteYIndexed, address);
+                        return (AbsoluteYIndexed, address);
+
+                    case var s when Matches(s, "<", "", out var address):
+                        return (ZeroPage, address);
 
                     default:
-                    {
-                        var address = ParseNumber(addressString, 0, 0);
-                        return (address < 256 ? ZeroPage : Absolute, address);
-                    }
+                        return (Absolute, ParseNumber(addressString, 0, 0));
                 }
             }
             catch
