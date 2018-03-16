@@ -26,14 +26,14 @@ namespace Assembler6502
 
         private static (AddressingMode, string) ParseAddress(string addressString)
         {
-            if (addressString == string.Empty)
-                return (Implicit, null);
-
-            if (addressString == "A")
-                return (Accumulator, null);
-
             switch (addressString)
             {
+                case var s when s == string.Empty:
+                    return (Implicit, null);
+
+                case var s when s == "A":
+                    return (Accumulator, null);
+
                 case var s when Matches(s, "#", "", out var address):
                     return (Immediate, address);
 
