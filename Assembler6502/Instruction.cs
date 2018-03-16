@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using static Assembler6502.AddressingMode;
 using static Assembler6502.OpCode;
 
@@ -12,7 +13,9 @@ namespace Assembler6502
         public string AddressString { get; set; }
 
         public ushort Address =>
-            AddressString == null ? (ushort) 0x0000 : Convert.ToUInt16(AddressString.Substring(1), 16);
+            ushort.TryParse(AddressString?.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var address)
+                ? address
+                : (ushort) 0x0000;
 
         public IEnumerable<byte> Bytes
         {

@@ -64,7 +64,7 @@ namespace Assembler6502
                 case var s when TryMatch(s, "<", "", out var address):
                     return (ZeroPage, address);
 
-                case var s when Regex.IsMatch(s, @"^\$[0-9A-Z]{4}$"):
+                case var s when Regex.IsMatch(s, @"^(\$[0-9A-Z]{4}|\w+)$"):
                     return (Absolute, ExtractNumber(addressString, 0, 0));
 
                 default:
