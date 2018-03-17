@@ -9,13 +9,19 @@ namespace Assembler6502
         public static Instruction Parse(string instruction)
         {
             var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
-            var opCode = ParseOpCode(normalizedInstruction.Substring(0, 3));
-            var (mode, addressString) = ParseAddress(normalizedInstruction.Substring(3));
+
+            var parts = normalizedInstruction.Split(':');
+            string label = parts.Length == 2 ? parts[0] : null;
+            var instructionPart = parts.Length == 2 ? parts[1] : parts[0];
+
+            var opCode = ParseOpCode(instructionPart.Substring(0, 3));
+            var (mode, addressString) = ParseAddress(instructionPart.Substring(3));
             return new Instruction
             {
                 Code = opCode,
                 Mode = mode,
-                AddressString = addressString
+                AddressString = addressString,
+                Label = label
             };
         }
 

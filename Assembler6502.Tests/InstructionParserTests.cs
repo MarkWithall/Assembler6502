@@ -53,5 +53,18 @@ namespace Assembler6502.Tests
             var instruction = InstructionParser.Parse(instructionString);
             Assert.That(instruction.AddressString, Is.EqualTo(expectedAddressString));
         }
+
+        [Test]
+        public void LabelledInstruction()
+        {
+            var instruction = InstructionParser.Parse("LABEL: LDA #$4E");
+            Assert.Multiple(() =>
+            {
+                Assert.That(instruction.Code, Is.EqualTo(LDA));
+                Assert.That(instruction.Mode, Is.EqualTo(Immediate));
+                Assert.That(instruction.AddressString, Is.EqualTo("$4E"));
+                Assert.That(instruction.Label, Is.EqualTo("LABEL"));
+            });
+        }
     }
 }
