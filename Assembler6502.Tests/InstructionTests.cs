@@ -10,6 +10,7 @@ namespace Assembler6502.Tests
     {
         [TestCase(BRK, Implicit, (ushort) 0x0000, new byte[] {0x00})]
         [TestCase(RTS, Implicit, (ushort) 0x0000, new byte[] {0x60})]
+        [TestCase(ASL, Accumulator, (ushort) 0x0000, new byte[] {0x0A})]
         [TestCase(LDA, Immediate, (ushort) 0x0000, new byte[] {0xA9, 0x00})]
         [TestCase(LDA, Immediate, (ushort) 0x0001, new byte[] {0xA9, 0x01})]
         [TestCase(BNE, Relative, (ushort) 0x0002, new byte[] {0xD0, 0x02})]
