@@ -29,6 +29,8 @@ namespace Assembler6502
                     return 0x0000;
                 if (Regex.IsMatch(AddressString, @"^\$([0-9A-Z]{2}|[0-9A-Z]{4})$"))
                     return ushort.Parse(AddressString.Substring(1), NumberStyles.HexNumber);
+                if (Mode == Relative)
+                    return _labelFinder.RelativeAddressFor(AddressString, this);
                 return _labelFinder.AbsoluteAddressFor(AddressString);
             }
         }

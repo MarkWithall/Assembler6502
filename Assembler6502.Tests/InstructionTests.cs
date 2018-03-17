@@ -36,7 +36,7 @@ namespace Assembler6502.Tests
         }
 
         [Test]
-        public void InstructionWithAbsoluteLabelGiveCorrectBytes()
+        public void InstructionWithAbsoluteLabelGivesCorrectBytes()
         {
             var labelFinder = Substitute.For<LabelFinder>();
             labelFinder.AbsoluteAddressFor("LABEL").Returns<ushort>(0x1342);
@@ -49,6 +49,24 @@ namespace Assembler6502.Tests
             };
 
             byte[] expectedBytes = {0x4C, 0x42, 0x13};
+
+            CollectionAssert.AreEqual(expectedBytes, instruction.Bytes.ToArray());
+        }
+
+        [Test]
+        public void InstructionWithRelativeLabelGivesCorrectBytes()
+        {
+            var labelFinder = Substitute.For<LabelFinder>();
+            labelFinder.RelativeAddressFor("LABEL", Arg.Any<Instruction>()).Returns<ushort>(0x42);
+
+            var instruction = new Instruction(labelFinder)
+            {
+                Code = BEQ,
+                Mode = Relative,
+                AddressString = "LABEL"
+            };
+
+            byte[] expectedBytes = {0xF0, 0x42};
 
             CollectionAssert.AreEqual(expectedBytes, instruction.Bytes.ToArray());
         }
