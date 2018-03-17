@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using static Assembler6502.AddressingMode;
 using static Assembler6502.OpCode;
 
@@ -8,15 +9,29 @@ namespace Assembler6502
 {
     public class Instruction
     {
+        private readonly LabelFinder _labelFinder;
+
+        public Instruction(LabelFinder labelFinder = null)
+        {
+            _labelFinder = labelFinder;
+        }
+
         public OpCode Code { get; set; }
         public AddressingMode Mode { get; set; }
         public string AddressString { get; set; }
         public string Label { get; set; }
 
-        public ushort Address =>
-            ushort.TryParse(AddressString?.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var address)
-                ? address
-                : (ushort) 0x0000;
+        public ushort Address
+        {
+            get
+            {
+                if (AddressString == null)
+                    return 0x0000;
+                if (Regex.IsMatch(AddressString, @"^\$([0-9A-Z]{2}|[0-9A-Z]{4})$"))
+                    return ushort.Parse(AddressString.Substring(1), NumberStyles.HexNumber);
+                return _labelFinder.AbsoluteAddressFor(AddressString);
+            }
+        }
 
         public int Length
         {

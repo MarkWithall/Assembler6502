@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NSubstitute;
 using NUnit.Framework;
 using static Assembler6502.AddressingMode;
 using static Assembler6502.OpCode;
@@ -32,6 +33,24 @@ namespace Assembler6502.Tests
                 AddressString = $"${address:X4}"
             };
             CollectionAssert.AreEqual(expectedBytes, instruciton.Bytes.ToArray());
+        }
+
+        [Test]
+        public void InstructionWithAbsoluteLabelGiveCorrectBytes()
+        {
+            var labelFinder = Substitute.For<LabelFinder>();
+            labelFinder.AbsoluteAddressFor("LABEL").Returns<ushort>(0x1342);
+
+            var instruction = new Instruction(labelFinder)
+            {
+                Code = JMP,
+                Mode = Absolute,
+                AddressString = "LABEL"
+            };
+
+            byte[] expectedBytes = {0x4C, 0x42, 0x13};
+
+            CollectionAssert.AreEqual(expectedBytes, instruction.Bytes.ToArray());
         }
 
         [Test]
