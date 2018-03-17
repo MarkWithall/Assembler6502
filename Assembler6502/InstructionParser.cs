@@ -10,12 +10,10 @@ namespace Assembler6502
         {
             var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
 
-            var parts = normalizedInstruction.Split(':');
-            string label = parts.Length == 2 ? parts[0] : null;
-            var instructionPart = parts.Length == 2 ? parts[1] : parts[0];
-
+            var (label, instructionPart) = ParseLabel(normalizedInstruction);
             var opCode = ParseOpCode(instructionPart.Substring(0, 3));
             var (mode, addressString) = ParseAddress(instructionPart.Substring(3));
+           
             return new Instruction
             {
                 Code = opCode,
@@ -23,6 +21,12 @@ namespace Assembler6502
                 AddressString = addressString,
                 Label = label
             };
+        }
+
+        private static (string, string) ParseLabel(string normalizedInstruction)
+        {
+            var parts = normalizedInstruction.Split(':');
+            return parts.Length == 2 ? (parts[0], parts[1]) : (null, normalizedInstruction);
         }
 
         private static OpCode ParseOpCode(string opCodeString)
