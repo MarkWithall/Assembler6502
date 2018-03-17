@@ -41,6 +41,7 @@ namespace Assembler6502.Tests
                 Assert.That(instruction.Code, Is.EqualTo(expectedOpCode));
                 Assert.That(instruction.Mode, Is.EqualTo(expectedAddressingMode));
                 Assert.That(instruction.Address, Is.EqualTo(expectedAddress));
+                Assert.That(instruction.Label, Is.Null);
             });
         }
 

@@ -11,6 +11,7 @@ namespace Assembler6502
         public OpCode Code { get; set; }
         public AddressingMode Mode { get; set; }
         public string AddressString { get; set; }
+        public string Label { get; set; }
 
         public ushort Address =>
             ushort.TryParse(AddressString?.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var address)
