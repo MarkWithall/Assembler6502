@@ -46,5 +46,24 @@ namespace Assembler6502.Tests
             var instruction = new Instruction {Code = BRK, Mode = AddressingMode.Unknown, AddressString = null};
             Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
         }
+
+        [TestCase(BRK, Implicit, 1)]
+        [TestCase(ASL, Accumulator, 1)]
+        [TestCase(LDA, Immediate, 2)]
+        [TestCase(BNE, Relative, 2)]
+        [TestCase(EOR, ZeroPage, 2)]
+        [TestCase(ROR, ZeroPageXIndexed, 2)]
+        [TestCase(LDX, ZeroPageYIndexed, 2)]
+        [TestCase(ORA, XIndexedIndirect, 2)]
+        [TestCase(CMP, IndirectYIndexed, 2)]
+        [TestCase(STA, Absolute, 3)]
+        [TestCase(AND, AbsoluteXIndexed, 3)]
+        [TestCase(LDX, AbsoluteYIndexed, 3)]
+        [TestCase(JMP, Indirect, 3)]
+        public void InstructionLength(OpCode code, AddressingMode mode, int expectedLength)
+        {
+            var instruction = new Instruction { Code = code, Mode = mode, AddressString = null };
+            Assert.That(instruction.Length, Is.EqualTo(expectedLength));
+        }
     }
 }

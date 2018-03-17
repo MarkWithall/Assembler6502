@@ -17,6 +17,18 @@ namespace Assembler6502
                 ? address
                 : (ushort) 0x0000;
 
+        public int Length
+        {
+            get
+            {
+                if (SingleByteAddressModes.Contains(Mode))
+                    return 2;
+                if (TwoByteAddressModes.Contains(Mode))
+                    return 3;
+                return 1;
+            }
+        }
+
         public IEnumerable<byte> Bytes
         {
             get
