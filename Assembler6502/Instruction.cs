@@ -11,6 +11,7 @@ namespace Assembler6502
     {
         private readonly LabelFinder _labelFinder;
 
+        // TODO remove option for label finder to be null
         public Instruction(LabelFinder labelFinder = null)
         {
             _labelFinder = labelFinder;
