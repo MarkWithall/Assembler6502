@@ -92,7 +92,7 @@ namespace Assembler6502.Tests
             Assert.AreEqual(expectedBinary, binary);
         }
 
-        [Test, Ignore("Wait until the funtionality has been implemented!")]
+        [Test]
         public void CodeWithAddressLabels()
         {
             string[] sourceCode =
