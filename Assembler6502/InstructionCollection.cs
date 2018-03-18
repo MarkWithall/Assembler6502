@@ -26,7 +26,16 @@ namespace Assembler6502
 
         public ushort RelativeAddressFor(string label, Instruction relativeTo)
         {
-            return 0x00;
+            ushort offset = 0;
+            var start = IndexOf(relativeTo) + 1;
+            for (var i = start; i < Count; i++)
+            {
+                var instruction = Items[i];
+                if (instruction.Label == label)
+                    return offset;
+                offset += instruction.Length;
+            }
+            return offset;
         }
     }
 }
