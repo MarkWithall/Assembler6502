@@ -96,7 +96,7 @@ namespace Assembler6502.Tests
             string label = null,
             LabelFinder labelFinder = null)
         {
-            return new Instruction(labelFinder) {Code = code, Mode = mode, AddressString = addressString, Label = label};
+            return new InstructionFactory(labelFinder).Create(code, mode, addressString, label);
         }
     }
 }

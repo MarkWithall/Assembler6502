@@ -7,10 +7,12 @@ namespace Assembler6502
     public class InstructionParser
     {
         private readonly LabelFinder _labelFinder;
+        private readonly InstructionFactory _factory;
 
         public InstructionParser(LabelFinder labelFinder)
         {
             _labelFinder = labelFinder;
+            _factory = new InstructionFactory(labelFinder);
         }
 
         public Instruction Parse(string instruction)
@@ -20,14 +22,8 @@ namespace Assembler6502
             var (label, instructionPart) = ParseLabel(normalizedInstruction);
             var opCode = ParseOpCode(instructionPart.Substring(0, 3));
             var (mode, addressString) = ParseAddress(instructionPart.Substring(3));
-           
-            return new Instruction(_labelFinder)
-            {
-                Code = opCode,
-                Mode = mode,
-                AddressString = addressString,
-                Label = label
-            };
+
+            return _factory.Create(opCode, mode, addressString, label);
         }
 
         private static (string, string) ParseLabel(string normalizedInstruction)
