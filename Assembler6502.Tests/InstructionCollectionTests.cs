@@ -14,13 +14,13 @@ namespace Assembler6502.Tests
         {
             _collection = new InstructionCollection(0x033C)
             {
-                new Instruction(null) {Code = LDA, Mode = Absolute, AddressString = "$0380", Label = "START"},
-                new Instruction(null) {Code = BEQ, Mode = Relative, AddressString = "LABEL"},
-                new Instruction(null) {Code = LDA, Mode = Immediate, AddressString = "$59"},
-                new Instruction(null) {Code = JMP, Mode = Absolute, AddressString = "END"},
-                new Instruction(null) {Code = LDA, Mode = Immediate, AddressString = "$4E", Label = "LABEL"},
-                new Instruction(null) {Code = JSR, Mode = Absolute, AddressString = "$FFD2", Label = "END"},
-                new Instruction(null) {Code = RTS, Mode = Implicit}
+                Instruction(LDA, Absolute, "$0380", "START"),
+                Instruction(BEQ, Relative, "LABEL"),
+                Instruction(LDA, Immediate, "$59"),
+                Instruction(JMP, Absolute, "END"),
+                Instruction(LDA, Immediate, "$4E", "LABEL"),
+                Instruction(JSR, Absolute, "$FFD2", "END"),
+                Instruction(RTS, Implicit)
             };
         }
 
@@ -62,6 +62,11 @@ namespace Assembler6502.Tests
         public void RelativeAddressOfUnknownLabelThrows()
         {
             Assert.That(() => _collection.RelativeAddressFor("UNKNOWN", _collection[1]), Throws.ArgumentException);
+        }
+
+        private static Instruction Instruction(OpCode code, AddressingMode mode, string addressString = null, string label = null)
+        {
+            return new Instruction(null) { Code = code, Mode = mode, AddressString = addressString, Label = label };
         }
     }
 }
