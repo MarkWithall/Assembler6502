@@ -26,7 +26,7 @@ namespace Assembler6502
 
         public ushort RelativeAddressFor(string label, Instruction relativeTo)
         {
-            throw new NotImplementedException();
+            return 0x00;
         }
     }
 }
