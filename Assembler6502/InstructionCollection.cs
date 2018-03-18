@@ -13,6 +13,13 @@ namespace Assembler6502
 
         public ushort AbsoluteAddressFor(string label)
         {
+            var address = _startingAddress;
+            foreach (var instruction in Items)
+            {
+                if (instruction.Label == label)
+                    return address;
+                address += (ushort) instruction.Length;
+            }
             return _startingAddress;
         }
 
