@@ -26,12 +26,7 @@ namespace Assembler6502.Tests
         [TestCase(CMP, IndirectYIndexed, (ushort) 0x000D, new byte[] {0xD1, 0x0D})]
         public void Bytes(OpCode code, AddressingMode mode, ushort address, byte[] expectedBytes)
         {
-            var instruciton = new Instruction(null)
-            {
-                Code = code,
-                Mode = mode,
-                AddressString = $"${address:X4}"
-            };
+            var instruciton = Instruction(code, mode, $"${address:X4}");
             CollectionAssert.AreEqual(expectedBytes, instruciton.Bytes.ToArray());
         }
 
@@ -41,12 +36,7 @@ namespace Assembler6502.Tests
             var labelFinder = Substitute.For<LabelFinder>();
             labelFinder.AbsoluteAddressFor("LABEL").Returns<ushort>(0x1342);
 
-            var instruction = new Instruction(labelFinder)
-            {
-                Code = JMP,
-                Mode = Absolute,
-                AddressString = "LABEL"
-            };
+            var instruction = Instruction(JMP, Absolute, "LABEL", labelFinder: labelFinder);
 
             byte[] expectedBytes = {0x4C, 0x42, 0x13};
 
@@ -59,12 +49,7 @@ namespace Assembler6502.Tests
             var labelFinder = Substitute.For<LabelFinder>();
             labelFinder.RelativeAddressFor("LABEL", Arg.Any<Instruction>()).Returns<ushort>(0x42);
 
-            var instruction = new Instruction(labelFinder)
-            {
-                Code = BEQ,
-                Mode = Relative,
-                AddressString = "LABEL"
-            };
+            var instruction = Instruction(BEQ, Relative, "LABEL", labelFinder: labelFinder);
 
             byte[] expectedBytes = {0xF0, 0x42};
 
@@ -74,14 +59,14 @@ namespace Assembler6502.Tests
         [Test]
         public void UnknownOpCodeThrowsWhenRequestingBytes()
         {
-            var instruction = new Instruction(null) {Code = OpCode.Unknown, Mode = Implicit, AddressString = null};
+            var instruction = Instruction(OpCode.Unknown, Implicit);
             Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
         }
 
         [Test]
         public void UnknownAddressingModeThrowsWhenRequestingBytes()
         {
-            var instruction = new Instruction(null) {Code = BRK, Mode = AddressingMode.Unknown, AddressString = null};
+            var instruction = Instruction(BRK, AddressingMode.Unknown);
             Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
         }
 
@@ -100,8 +85,18 @@ namespace Assembler6502.Tests
         [TestCase(JMP, Indirect, (ushort)3)]
         public void InstructionLength(OpCode code, AddressingMode mode, ushort expectedLength)
         {
-            var instruction = new Instruction(null) { Code = code, Mode = mode, AddressString = null };
+            var instruction = Instruction(code, mode);
             Assert.That(instruction.Length, Is.EqualTo(expectedLength));
+        }
+
+        private static Instruction Instruction(
+            OpCode code,
+            AddressingMode mode,
+            string addressString = null,
+            string label = null,
+            LabelFinder labelFinder = null)
+        {
+            return new Instruction(labelFinder) {Code = code, Mode = mode, AddressString = addressString, Label = label};
         }
     }
 }
