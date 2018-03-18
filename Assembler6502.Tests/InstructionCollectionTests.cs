@@ -14,13 +14,13 @@ namespace Assembler6502.Tests
         {
             _collection = new InstructionCollection(0x033C)
             {
-                new Instruction {Code = LDA, Mode = Absolute, AddressString = "$0380", Label = "START"},
-                new Instruction {Code = BEQ, Mode = Relative, AddressString = "LABEL"},
-                new Instruction {Code = LDA, Mode = Immediate, AddressString = "$59"},
-                new Instruction {Code = JMP, Mode = Absolute, AddressString = "END"},
-                new Instruction {Code = LDA, Mode = Immediate, AddressString = "$4E", Label = "LABEL"},
-                new Instruction {Code = JSR, Mode = Absolute, AddressString = "$FFD2", Label = "END"},
-                new Instruction {Code = RTS, Mode = Implicit}
+                new Instruction(null) {Code = LDA, Mode = Absolute, AddressString = "$0380", Label = "START"},
+                new Instruction(null) {Code = BEQ, Mode = Relative, AddressString = "LABEL"},
+                new Instruction(null) {Code = LDA, Mode = Immediate, AddressString = "$59"},
+                new Instruction(null) {Code = JMP, Mode = Absolute, AddressString = "END"},
+                new Instruction(null) {Code = LDA, Mode = Immediate, AddressString = "$4E", Label = "LABEL"},
+                new Instruction(null) {Code = JSR, Mode = Absolute, AddressString = "$FFD2", Label = "END"},
+                new Instruction(null) {Code = RTS, Mode = Implicit}
             };
         }
 

@@ -14,7 +14,7 @@ namespace Assembler6502
             var opCode = ParseOpCode(instructionPart.Substring(0, 3));
             var (mode, addressString) = ParseAddress(instructionPart.Substring(3));
            
-            return new Instruction
+            return new Instruction(labelFinder)
             {
                 Code = opCode,
                 Mode = mode,

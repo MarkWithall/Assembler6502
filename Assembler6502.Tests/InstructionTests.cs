@@ -26,7 +26,7 @@ namespace Assembler6502.Tests
         [TestCase(CMP, IndirectYIndexed, (ushort) 0x000D, new byte[] {0xD1, 0x0D})]
         public void Bytes(OpCode code, AddressingMode mode, ushort address, byte[] expectedBytes)
         {
-            var instruciton = new Instruction
+            var instruciton = new Instruction(null)
             {
                 Code = code,
                 Mode = mode,
@@ -74,14 +74,14 @@ namespace Assembler6502.Tests
         [Test]
         public void UnknownOpCodeThrowsWhenRequestingBytes()
         {
-            var instruction = new Instruction {Code = OpCode.Unknown, Mode = Implicit, AddressString = null};
+            var instruction = new Instruction(null) {Code = OpCode.Unknown, Mode = Implicit, AddressString = null};
             Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
         }
 
         [Test]
         public void UnknownAddressingModeThrowsWhenRequestingBytes()
         {
-            var instruction = new Instruction {Code = BRK, Mode = AddressingMode.Unknown, AddressString = null};
+            var instruction = new Instruction(null) {Code = BRK, Mode = AddressingMode.Unknown, AddressString = null};
             Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
         }
 
@@ -100,7 +100,7 @@ namespace Assembler6502.Tests
         [TestCase(JMP, Indirect, (ushort)3)]
         public void InstructionLength(OpCode code, AddressingMode mode, ushort expectedLength)
         {
-            var instruction = new Instruction { Code = code, Mode = mode, AddressString = null };
+            var instruction = new Instruction(null) { Code = code, Mode = mode, AddressString = null };
             Assert.That(instruction.Length, Is.EqualTo(expectedLength));
         }
     }
