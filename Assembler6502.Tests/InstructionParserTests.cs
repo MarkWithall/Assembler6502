@@ -34,7 +34,7 @@ namespace Assembler6502.Tests
             AddressingMode expectedAddressingMode,
             ushort expectedAddress)
         {
-            var instruction = InstructionParser.Parse(instructionString);
+            var instruction = InstructionParser.Parse(instructionString, null);
             Assert.Multiple(() =>
             {
                 Assert.That(instruction.Code, Is.EqualTo(expectedOpCode));
@@ -49,14 +49,14 @@ namespace Assembler6502.Tests
         [TestCase("BNE *LABEL_1", "LABEL_1")]
         public void ParseInstructionWithLabel(string instructionString, string expectedAddressString)
         {
-            var instruction = InstructionParser.Parse(instructionString);
+            var instruction = InstructionParser.Parse(instructionString, null);
             Assert.That(instruction.AddressString, Is.EqualTo(expectedAddressString));
         }
 
         [Test]
         public void LabelledInstruction()
         {
-            var instruction = InstructionParser.Parse("LABEL: LDA #$4E");
+            var instruction = InstructionParser.Parse("LABEL: LDA #$4E", null);
             Assert.Multiple(() =>
             {
                 Assert.That(instruction.Code, Is.EqualTo(LDA));

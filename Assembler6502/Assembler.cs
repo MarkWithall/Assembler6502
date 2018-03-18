@@ -6,12 +6,14 @@ namespace Assembler6502
     {
         public static byte[] Assemble(string[] sourceCode, ushort startingAddress)
         {
+            var instructions = new InstructionCollection(startingAddress);
+            
             byte[] addressBytes = {(byte) startingAddress, (byte) (startingAddress >> 8)};
 
             var sourceBytes = sourceCode
                 .Select(StripComments)
                 .Where(l => l != string.Empty)
-                .Select(InstructionParser.Parse)
+                .Select(l => InstructionParser.Parse(l, instructions))
                 .SelectMany(i => i.Bytes);
 
             return addressBytes.Concat(sourceBytes).ToArray();

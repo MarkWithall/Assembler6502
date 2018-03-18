@@ -6,7 +6,7 @@ namespace Assembler6502
 {
     public static class InstructionParser
     {
-        public static Instruction Parse(string instruction)
+        public static Instruction Parse(string instruction, LabelFinder labelFinder)
         {
             var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
 
