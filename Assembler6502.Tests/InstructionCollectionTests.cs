@@ -57,5 +57,11 @@ namespace Assembler6502.Tests
             var address = _collection.RelativeAddressFor("LABEL", _collection[1]);
             Assert.That(address, Is.EqualTo(0x05));
         }
+
+        [Test]
+        public void RelativeAddressOfUnknownLabelThrows()
+        {
+            Assert.That(() => _collection.RelativeAddressFor("UNKNOWN", _collection[1]), Throws.ArgumentException);
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace Assembler6502
                     return offset;
                 offset += instruction.Length;
             }
-            return offset;
+            throw new ArgumentException($"Label '{label}' does not exist");
         }
     }
 }
