@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace Assembler6502
 {
@@ -20,7 +21,7 @@ namespace Assembler6502
                     return address;
                 address += (ushort) instruction.Length;
             }
-            return _startingAddress;
+            throw new ArgumentException($"Label '{label}' does not exist");
         }
 
         public ushort RelativeAddressFor(string label, Instruction relativeTo)
