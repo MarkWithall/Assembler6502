@@ -35,17 +35,7 @@ namespace Assembler6502
             }
         }
 
-        public ushort Length
-        {
-            get
-            {
-                if (SingleByteAddressModes.Contains(Mode))
-                    return 2;
-                if (TwoByteAddressModes.Contains(Mode))
-                    return 3;
-                return 1;
-            }
-        }
+        public abstract ushort Length { get; }
 
         public IEnumerable<byte> Bytes
         {
@@ -73,6 +63,8 @@ namespace Assembler6502
         public NoAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
         {
         }
+
+        public override ushort Length { get; } = 1;
     }
 
 
@@ -81,6 +73,8 @@ namespace Assembler6502
         public SingleByteAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
         {
         }
+
+        public override ushort Length { get; } = 2;
     }
 
 
@@ -89,5 +83,7 @@ namespace Assembler6502
         public TwoByteAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
         {
         }
+
+        public override ushort Length { get; } = 3;
     }
 }
