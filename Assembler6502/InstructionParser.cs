@@ -4,9 +4,16 @@ using static Assembler6502.AddressingMode;
 
 namespace Assembler6502
 {
-    public static class InstructionParser
+    public class InstructionParser
     {
-        public static Instruction Parse(string instruction, LabelFinder labelFinder)
+        private readonly LabelFinder _labelFinder;
+
+        public InstructionParser(LabelFinder labelFinder)
+        {
+            _labelFinder = labelFinder;
+        }
+
+        public Instruction Parse(string instruction)
         {
             var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
 
@@ -14,7 +21,7 @@ namespace Assembler6502
             var opCode = ParseOpCode(instructionPart.Substring(0, 3));
             var (mode, addressString) = ParseAddress(instructionPart.Substring(3));
            
-            return new Instruction(labelFinder)
+            return new Instruction(_labelFinder)
             {
                 Code = opCode,
                 Mode = mode,

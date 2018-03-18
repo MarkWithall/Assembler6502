@@ -7,10 +7,11 @@ namespace Assembler6502
         public static byte[] Assemble(string[] sourceCode, ushort startingAddress)
         {
             var instructions = new InstructionCollection(startingAddress);
+            var parser = new InstructionParser(instructions);
             foreach (var instruction in sourceCode
                      .Select(StripComments)
                      .Where(l => l != string.Empty)
-                     .Select(l => InstructionParser.Parse(l, instructions)))
+                     .Select(parser.Parse))
                 instructions.Add(instruction);
             
             byte[] addressBytes = {(byte) startingAddress, (byte) (startingAddress >> 8)};
