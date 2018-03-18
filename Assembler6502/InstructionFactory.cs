@@ -13,9 +13,17 @@ namespace Assembler6502
 
         public Instruction Create(OpCode code, AddressingMode mode, string addressString, string label)
         {
-            switch (mode)
+            switch ((Code: code, Mode: mode))
             {
-                case var m when SingleByteAddressModes.Contains(m):
+                case var i when i.Code == OpCode.Unknown || i.Mode == AddressingMode.Unknown:
+                    return new UnknownInstruction
+                    {
+                        Code = code,
+                        Mode = mode,
+                        AddressString = addressString,
+                        Label = label
+                    };
+                case var i when SingleByteAddressModes.Contains(i.Mode):
                     return new SingleByteAddressInstruction(_labelFinder)
                     {
                         Code = code,
@@ -23,7 +31,7 @@ namespace Assembler6502
                         AddressString = addressString,
                         Label = label
                     };
-                case var m when TwoByteAddressModes.Contains(m):
+                case var i when TwoByteAddressModes.Contains(i.Mode):
                     return new TwoByteAddressInstruction(_labelFinder)
                     {
                         Code = code,
@@ -32,7 +40,7 @@ namespace Assembler6502
                         Label = label
                     };
                 default:
-                    return new NoAddressInstruction(null)
+                    return new NoAddressInstruction
                     {
                         Code = code,
                         Mode = mode,

@@ -58,9 +58,18 @@ namespace Assembler6502
         }
     }
 
+    public class UnknownInstruction : Instruction
+    {
+        public UnknownInstruction() : base(null)
+        {
+        }
+
+        public override ushort Length => throw new NotImplementedException();
+    }
+
     public class NoAddressInstruction : Instruction
     {
-        public NoAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
+        public NoAddressInstruction() : base(null)
         {
         }
 
