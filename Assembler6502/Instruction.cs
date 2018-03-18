@@ -36,7 +36,7 @@ namespace Assembler6502
             }
         }
 
-        public int Length
+        public ushort Length
         {
             get
             {

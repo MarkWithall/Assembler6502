@@ -19,7 +19,7 @@ namespace Assembler6502
             {
                 if (instruction.Label == label)
                     return address;
-                address += (ushort) instruction.Length;
+                address += instruction.Length;
             }
             throw new ArgumentException($"Label '{label}' does not exist");
         }

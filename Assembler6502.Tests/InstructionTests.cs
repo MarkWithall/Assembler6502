@@ -85,20 +85,20 @@ namespace Assembler6502.Tests
             Assert.That(() => instruction.Bytes.ToArray(), Throws.InvalidOperationException);
         }
 
-        [TestCase(BRK, Implicit, 1)]
-        [TestCase(ASL, Accumulator, 1)]
-        [TestCase(LDA, Immediate, 2)]
-        [TestCase(BNE, Relative, 2)]
-        [TestCase(EOR, ZeroPage, 2)]
-        [TestCase(ROR, ZeroPageXIndexed, 2)]
-        [TestCase(LDX, ZeroPageYIndexed, 2)]
-        [TestCase(ORA, XIndexedIndirect, 2)]
-        [TestCase(CMP, IndirectYIndexed, 2)]
-        [TestCase(STA, Absolute, 3)]
-        [TestCase(AND, AbsoluteXIndexed, 3)]
-        [TestCase(LDX, AbsoluteYIndexed, 3)]
-        [TestCase(JMP, Indirect, 3)]
-        public void InstructionLength(OpCode code, AddressingMode mode, int expectedLength)
+        [TestCase(BRK, Implicit, (ushort)1)]
+        [TestCase(ASL, Accumulator, (ushort)1)]
+        [TestCase(LDA, Immediate, (ushort)2)]
+        [TestCase(BNE, Relative, (ushort)2)]
+        [TestCase(EOR, ZeroPage, (ushort)2)]
+        [TestCase(ROR, ZeroPageXIndexed, (ushort)2)]
+        [TestCase(LDX, ZeroPageYIndexed, (ushort)2)]
+        [TestCase(ORA, XIndexedIndirect, (ushort)2)]
+        [TestCase(CMP, IndirectYIndexed, (ushort)2)]
+        [TestCase(STA, Absolute, (ushort)3)]
+        [TestCase(AND, AbsoluteXIndexed, (ushort)3)]
+        [TestCase(LDX, AbsoluteYIndexed, (ushort)3)]
+        [TestCase(JMP, Indirect, (ushort)3)]
+        public void InstructionLength(OpCode code, AddressingMode mode, ushort expectedLength)
         {
             var instruction = new Instruction { Code = code, Mode = mode, AddressString = null };
             Assert.That(instruction.Length, Is.EqualTo(expectedLength));
