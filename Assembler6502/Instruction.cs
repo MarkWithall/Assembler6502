@@ -37,25 +37,7 @@ namespace Assembler6502
 
         public abstract ushort Length { get; }
 
-        public IEnumerable<byte> Bytes
-        {
-            get
-            {
-                if (Code == OpCode.Unknown)
-                    throw new InvalidOperationException("Cannot get bytes for unknown op code");
-                if (Mode == AddressingMode.Unknown)
-                    throw new InvalidOperationException("Cannot get bytes for unknown addressing mode");
-
-                yield return Instructions[(Code, Mode)];
-                if (SingleByteAddressModes.Contains(Mode))
-                    yield return (byte)Address;
-                else if (TwoByteAddressModes.Contains(Mode))
-                {
-                    yield return (byte)Address;
-                    yield return (byte)(Address >> 8);
-                }
-            }
-        }
+        public abstract IEnumerable<byte> Bytes { get; }
     }
 
     public class UnknownInstruction : Instruction
@@ -65,6 +47,16 @@ namespace Assembler6502
         }
 
         public override ushort Length => throw new NotImplementedException();
+
+        public override IEnumerable<byte> Bytes
+        {
+            get
+            {
+                if (Code == OpCode.Unknown)
+                    throw new InvalidOperationException("Cannot get bytes for unknown op code");
+                throw new InvalidOperationException("Cannot get bytes for unknown addressing mode");
+            }
+        }
     }
 
     public class NoAddressInstruction : Instruction
@@ -74,6 +66,11 @@ namespace Assembler6502
         }
 
         public override ushort Length { get; } = 1;
+
+        public override IEnumerable<byte> Bytes
+        {
+            get { yield return Instructions[(Code, Mode)]; }
+        }
     }
 
 
@@ -84,6 +81,15 @@ namespace Assembler6502
         }
 
         public override ushort Length { get; } = 2;
+
+        public override IEnumerable<byte> Bytes
+        {
+            get
+            {
+                yield return Instructions[(Code, Mode)];
+                yield return (byte)Address;
+            }
+        }
     }
 
 
@@ -94,5 +100,15 @@ namespace Assembler6502
         }
 
         public override ushort Length { get; } = 3;
+
+        public override IEnumerable<byte> Bytes
+        {
+            get
+            {
+                yield return Instructions[(Code, Mode)];
+                yield return (byte)Address;
+                yield return (byte)(Address >> 8);
+            }
+        }
     }
 }
