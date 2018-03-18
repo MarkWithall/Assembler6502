@@ -8,10 +8,7 @@ namespace Assembler6502
         {
             var instructions = new InstructionCollection(startingAddress);
             var parser = new InstructionParser(instructions);
-            foreach (var instruction in sourceCode
-                     .Select(StripComments)
-                     .Where(l => l != string.Empty)
-                     .Select(parser.Parse))
+            foreach (var instruction in sourceCode.Select(StripComments).Where(l => l != string.Empty).Select(parser.Parse))
                 instructions.Add(instruction);
             
             byte[] addressBytes = {(byte) startingAddress, (byte) (startingAddress >> 8)};
