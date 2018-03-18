@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using static Assembler6502.InstructionInformation;
 
-namespace Assembler6502
+namespace Assembler6502.InstructionTypes
 {
     public class NoAddressInstruction : Instruction
     {

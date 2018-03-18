@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using static Assembler6502.AddressingMode;
 
-namespace Assembler6502
+namespace Assembler6502.InstructionTypes
 {
     public abstract class Instruction
     {

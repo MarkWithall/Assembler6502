@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using static Assembler6502.InstructionInformation;
 
-namespace Assembler6502
+namespace Assembler6502.InstructionTypes
 {
-    public class TwoByteAddressInstruction : Instruction
+    public class SingleByteAddressInstruction : Instruction
     {
-        public TwoByteAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
+        public SingleByteAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
         {
         }
 
-        public override ushort Length { get; } = 3;
+        public override ushort Length { get; } = 2;
 
         public override IEnumerable<byte> Bytes
         {
@@ -17,7 +17,6 @@ namespace Assembler6502
             {
                 yield return Instructions[(Code, Mode)];
                 yield return (byte)Address;
-                yield return (byte)(Address >> 8);
             }
         }
     }

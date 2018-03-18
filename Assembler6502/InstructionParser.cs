@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Assembler6502.InstructionTypes;
 using static Assembler6502.AddressingMode;
 
 namespace Assembler6502

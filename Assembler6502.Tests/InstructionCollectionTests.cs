@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Assembler6502.InstructionTypes;
+using NUnit.Framework;
 using static Assembler6502.AddressingMode;
 using static Assembler6502.OpCode;
 

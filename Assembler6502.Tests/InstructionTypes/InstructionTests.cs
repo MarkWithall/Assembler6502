@@ -1,10 +1,11 @@
 ﻿using System.Linq;
+using Assembler6502.InstructionTypes;
 using NSubstitute;
 using NUnit.Framework;
 using static Assembler6502.AddressingMode;
 using static Assembler6502.OpCode;
 
-namespace Assembler6502.Tests
+namespace Assembler6502.Tests.InstructionTypes
 {
     [TestFixture]
     public class InstructionTests

@@ -1,4 +1,5 @@
-﻿using static Assembler6502.InstructionInformation;
+﻿using Assembler6502.InstructionTypes;
+using static Assembler6502.InstructionInformation;
 
 namespace Assembler6502
 {

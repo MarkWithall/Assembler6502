@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Assembler6502.InstructionTypes;
 
 namespace Assembler6502
 {

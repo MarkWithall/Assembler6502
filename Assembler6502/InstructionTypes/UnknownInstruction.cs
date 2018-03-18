@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Assembler6502
+namespace Assembler6502.InstructionTypes
 {
     public class UnknownInstruction : Instruction
     {

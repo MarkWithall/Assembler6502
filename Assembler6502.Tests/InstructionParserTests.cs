@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using static Assembler6502.OpCode;
 using static Assembler6502.AddressingMode;
+using Assembler6502.InstructionTypes;
 
 namespace Assembler6502.Tests
 {
