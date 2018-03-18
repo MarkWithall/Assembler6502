@@ -7,11 +7,11 @@ using static Assembler6502.InstructionInformation;
 
 namespace Assembler6502
 {
-    public class Instruction
+    public abstract class Instruction
     {
         private readonly LabelFinder _labelFinder;
 
-        public Instruction(LabelFinder labelFinder)
+        protected Instruction(LabelFinder labelFinder)
         {
             _labelFinder = labelFinder;
         }
@@ -65,6 +65,29 @@ namespace Assembler6502
                     yield return (byte)(Address >> 8);
                 }
             }
+        }
+    }
+
+    public class NoAddressInstruction : Instruction
+    {
+        public NoAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
+        {
+        }
+    }
+
+
+    public class SingleByteAddressInstruction : Instruction
+    {
+        public SingleByteAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
+        {
+        }
+    }
+
+
+    public class TwoByteAddressInstruction : Instruction
+    {
+        public TwoByteAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
+        {
         }
     }
 }

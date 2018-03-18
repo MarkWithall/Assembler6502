@@ -1,4 +1,6 @@
-﻿namespace Assembler6502
+﻿using static Assembler6502.InstructionInformation;
+
+namespace Assembler6502
 {
     public class InstructionFactory
     {
@@ -11,13 +13,32 @@
 
         public Instruction Create(OpCode code, AddressingMode mode, string addressString, string label)
         {
-            return new Instruction(_labelFinder)
+            switch (mode)
             {
-                Code = code,
-                Mode = mode,
-                AddressString = addressString,
-                Label = label
-            };
+                case var m when SingleByteAddressModes.Contains(m):
+                    return new SingleByteAddressInstruction(_labelFinder)
+                    {
+                        Code = code,
+                        Mode = mode,
+                        AddressString = addressString,
+                        Label = label
+                    };
+                case var m when TwoByteAddressModes.Contains(m):
+                    return new TwoByteAddressInstruction(_labelFinder)
+                    {
+                        Code = code,
+                        Mode = mode,
+                        AddressString = addressString,
+                        Label = label
+                    };
+                default:
+                    return new NoAddressInstruction(null)
+                    {
+                        Code = code,
+                        Mode = mode,
+                        Label = label
+                    };
+            }
         }
     }
 }
