@@ -90,6 +90,13 @@ namespace Assembler6502.Tests.InstructionTypes
             Assert.That(instruction.Length, Is.EqualTo(expectedLength));
         }
 
+        [TestCase(LDA, Absolute, "$1342", true)]
+        public void IsValid(OpCode code, AddressingMode mode, string addressString, bool expectedIsValid)
+        {
+            var instruction = Instruction(code, mode, addressString);
+            Assert.That(instruction.IsValid, Is.EqualTo(expectedIsValid));
+        }
+
         private static Instruction Instruction(
             OpCode code,
             AddressingMode mode,

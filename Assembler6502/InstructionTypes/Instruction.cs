@@ -33,6 +33,8 @@ namespace Assembler6502.InstructionTypes
             }
         }
 
+        public bool IsValid => true;
+
         public abstract ushort Length { get; }
 
         public abstract IEnumerable<byte> Bytes { get; }
