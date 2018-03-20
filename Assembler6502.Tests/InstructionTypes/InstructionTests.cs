@@ -91,6 +91,7 @@ namespace Assembler6502.Tests.InstructionTypes
         }
 
         [TestCase(LDA, Absolute, "$1342", true)]
+        [TestCase(BEQ, Absolute, "$1342", false)]
         public void IsValid(OpCode code, AddressingMode mode, string addressString, bool expectedIsValid)
         {
             var instruction = Instruction(code, mode, addressString);

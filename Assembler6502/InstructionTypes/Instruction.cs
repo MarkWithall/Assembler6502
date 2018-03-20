@@ -33,7 +33,7 @@ namespace Assembler6502.InstructionTypes
             }
         }
 
-        public bool IsValid => true;
+        public bool IsValid => InstructionInformation.Instructions.ContainsKey((Code, Mode));
 
         public abstract ushort Length { get; }
 
