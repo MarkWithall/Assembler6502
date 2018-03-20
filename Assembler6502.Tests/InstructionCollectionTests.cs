@@ -9,7 +9,7 @@ namespace Assembler6502.Tests
     public class InstructionCollectionTests
     {
         private InstructionCollection _collection;
-        
+
         [SetUp]
         public void Setup()
         {
