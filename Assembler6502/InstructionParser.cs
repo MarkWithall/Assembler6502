@@ -7,12 +7,10 @@ namespace Assembler6502
 {
     public class InstructionParser
     {
-        private readonly LabelFinder _labelFinder;
         private readonly InstructionFactory _factory;
 
         public InstructionParser(LabelFinder labelFinder)
         {
-            _labelFinder = labelFinder;
             _factory = new InstructionFactory(labelFinder);
         }
 
