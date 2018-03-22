@@ -34,7 +34,7 @@ namespace Assembler6502.InstructionTypes
             }
         }
 
-        public bool IsValid => InstructionInformation.Instructions.ContainsKey((Code, Mode));
+        public bool IsValid => ErrorMessage == null;
 
         public string ErrorMessage
         {
