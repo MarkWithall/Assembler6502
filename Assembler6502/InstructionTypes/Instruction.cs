@@ -42,7 +42,7 @@ namespace Assembler6502.InstructionTypes
             {
                 if (!InstructionInformation.Instructions.ContainsKey((Code, Mode)))
                    return $"Error (line {LineNumber}) - invalid op code/addressing mode combination.";
-                if (this is SingleByteAddressInstruction && Address > 255)
+                if (this is SingleByteAddressInstruction && Address > 0xFF)
                     return $"Error (line {LineNumber}) - single byte address must be less than 256.";
                 return null;
             }
