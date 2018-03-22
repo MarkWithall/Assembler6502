@@ -98,11 +98,12 @@ namespace Assembler6502.Tests.InstructionTypes
             Assert.That(instruction.IsValid, Is.EqualTo(expectedIsValid));
         }
 
-        [TestCase(LDA, Absolute, "$1342", null)]
-        [TestCase(BEQ, Absolute, "$1342", "Error (line 13) - invalid op code/addressing mode combination.")]
-        public void ErrorMessage(OpCode code, AddressingMode mode, string addressString, string expecetedError)
+        [TestCase(LDA, Absolute, "$1342", 13, null)]
+        [TestCase(BEQ, Absolute, "$1342", 13, "Error (line 13) - invalid op code/addressing mode combination.")]
+        [TestCase(BEQ, Absolute, "$1342", 42, "Error (line 42) - invalid op code/addressing mode combination.")]
+        public void ErrorMessage(OpCode code, AddressingMode mode, string addressString, int lineNumber, string expecetedError)
         {
-            var instruction = Instruction(code, mode, addressString);
+            var instruction = Instruction(code, mode, addressString, lineNumber: lineNumber);
             Assert.That(instruction.ErrorMessage, Is.EqualTo(expecetedError));
         }
 
@@ -111,9 +112,10 @@ namespace Assembler6502.Tests.InstructionTypes
             AddressingMode mode,
             string addressString = null,
             string label = null,
+            int lineNumber = 0,
             LabelFinder labelFinder = null)
         {
-            return new InstructionFactory(labelFinder).Create(code, mode, addressString, label);
+            return new InstructionFactory(labelFinder).Create(code, mode, addressString, lineNumber, label);
         }
     }
 }

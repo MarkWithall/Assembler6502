@@ -12,7 +12,7 @@ namespace Assembler6502
             _labelFinder = labelFinder;
         }
 
-        public Instruction Create(OpCode code, AddressingMode mode, string addressString, string label)
+        public Instruction Create(OpCode code, AddressingMode mode, string addressString, int lineNumber, string label)
         {
             switch ((Code: code, Mode: mode))
             {
@@ -22,6 +22,7 @@ namespace Assembler6502
                         Code = code,
                         Mode = mode,
                         AddressString = addressString,
+                        LineNumber = lineNumber,
                         Label = label
                     };
                 case var i when SingleByteAddressModes.Contains(i.Mode):
@@ -30,6 +31,7 @@ namespace Assembler6502
                         Code = code,
                         Mode = mode,
                         AddressString = addressString,
+                        LineNumber = lineNumber,
                         Label = label
                     };
                 case var i when TwoByteAddressModes.Contains(i.Mode):
@@ -38,6 +40,7 @@ namespace Assembler6502
                         Code = code,
                         Mode = mode,
                         AddressString = addressString,
+                        LineNumber = lineNumber,
                         Label = label
                     };
                 default:
@@ -45,6 +48,7 @@ namespace Assembler6502
                     {
                         Code = code,
                         Mode = mode,
+                        LineNumber = lineNumber,
                         Label = label
                     };
             }

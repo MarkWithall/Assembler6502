@@ -17,6 +17,7 @@ namespace Assembler6502.InstructionTypes
         public OpCode Code { get; set; }
         public AddressingMode Mode { get; set; }
         public string AddressString { get; set; }
+        public int LineNumber { get; set; }
         public string Label { get; set; }
 
         public ushort Address
@@ -41,7 +42,7 @@ namespace Assembler6502.InstructionTypes
             {
                 if (InstructionInformation.Instructions.ContainsKey((Code, Mode)))
                     return null;
-                return "Error (line 13) - invalid op code/addressing mode combination.";
+                return $"Error (line {LineNumber}) - invalid op code/addressing mode combination.";
             }
         }
 

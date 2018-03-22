@@ -67,7 +67,7 @@ namespace Assembler6502.Tests
 
         private static Instruction Instruction(OpCode code, AddressingMode mode, string addressString = null, string label = null)
         {
-            return new InstructionFactory(null).Create(code, mode, addressString, label);
+            return new InstructionFactory(null).Create(code, mode, addressString, 0, label);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Assembler6502
             var opCode = ParseOpCode(instructionPart.Substring(0, 3));
             var (mode, addressString) = ParseAddress(instructionPart.Substring(3));
 
-            return _factory.Create(opCode, mode, addressString, label);
+            return _factory.Create(opCode, mode, addressString, 0, label);
         }
 
         private static (string, string) ParseLabel(string normalizedInstruction)
