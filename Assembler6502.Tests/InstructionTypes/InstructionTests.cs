@@ -99,6 +99,7 @@ namespace Assembler6502.Tests.InstructionTypes
         }
 
         [TestCase(LDA, Absolute, "$1342", null)]
+        [TestCase(BEQ, Absolute, "$1342", "Error (line 13) - invalid op code/addressing mode combination.")]
         public void ErrorMessage(OpCode code, AddressingMode mode, string addressString, string expecetedError)
         {
             var instruction = Instruction(code, mode, addressString);

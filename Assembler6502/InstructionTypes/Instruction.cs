@@ -35,7 +35,15 @@ namespace Assembler6502.InstructionTypes
 
         public bool IsValid => InstructionInformation.Instructions.ContainsKey((Code, Mode));
 
-        public string ErrorMessage => null;
+        public string ErrorMessage
+        {
+            get
+            {
+                if (InstructionInformation.Instructions.ContainsKey((Code, Mode)))
+                    return null;
+                return "Error (line 13) - invalid op code/addressing mode combination.";
+            }
+        }
 
         public abstract ushort Length { get; }
 
