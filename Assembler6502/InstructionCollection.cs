@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Assembler6502.InstructionTypes;
 
 namespace Assembler6502
@@ -15,12 +16,7 @@ namespace Assembler6502
 
         public bool HasLabel(string label)
         {
-            foreach (var instruction in Items)
-            {
-                if (instruction.Label == label)
-                    return true;
-            }
-            return false;
+            return Items.Any(i => i.Label == label);
         }
 
         public ushort AbsoluteAddressFor(string label)
