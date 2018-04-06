@@ -25,6 +25,13 @@ namespace Assembler6502.Tests
             };
         }
 
+        [TestCase("LABEL", true)]
+        [TestCase("UNKNOWN", false)]
+        public void HasLabel(string label, bool expectedResult)
+        {
+            Assert.That(_collection.HasLabel(label), Is.EqualTo(expectedResult));
+        }
+
         [Test]
         public void AbsoluteAddressOfLabelOnFirstInstruction()
         {

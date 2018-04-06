@@ -15,14 +15,12 @@ namespace Assembler6502
 
         public bool HasLabel(string label)
         {
-            var address = _startingAddress;
             foreach (var instruction in Items)
             {
                 if (instruction.Label == label)
-                    return false;
-                address += instruction.Length;
+                    return true;
             }
-            return true;
+            return false;
         }
 
         public ushort AbsoluteAddressFor(string label)
