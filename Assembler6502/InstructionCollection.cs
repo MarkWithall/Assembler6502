@@ -48,6 +48,8 @@ namespace Assembler6502
                     return offset;
                 offset += instruction.Length;
             }
+            offset = 0;
+            start = IndexOf(relativeTo);
             for (var i = start; i >= 0; i--)
             {
                 var instruction = Items[i];
