@@ -13,6 +13,18 @@ namespace Assembler6502
             _startingAddress = startingAddress;
         }
 
+        public bool HasLabel(string label)
+        {
+            var address = _startingAddress;
+            foreach (var instruction in Items)
+            {
+                if (instruction.Label == label)
+                    return false;
+                address += instruction.Length;
+            }
+            return true;
+        }
+
         public ushort AbsoluteAddressFor(string label)
         {
             var address = _startingAddress;

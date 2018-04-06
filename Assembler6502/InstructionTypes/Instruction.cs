@@ -46,6 +46,8 @@ namespace Assembler6502.InstructionTypes
                     return $"Error (line {LineNumber}) - single byte address must be less than 256.";
                 if (this is TwoByteAddressInstruction && Regex.IsMatch(AddressString, @"^\$[0-9A-Z]{5,}$"))
                     return $"Error (line {LineNumber}) - two byte address must be less than 65536.";
+                if (Regex.IsMatch(AddressString, @"^\w+$") && !_labelFinder.HasLabel(AddressString))
+                    return $"Error (line {LineNumber}) - unknown address label '{AddressString}'.";
                 return null;
             }
         }
