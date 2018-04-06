@@ -48,6 +48,13 @@ namespace Assembler6502
                     return offset;
                 offset += instruction.Length;
             }
+            for (var i = start; i >= 0; i--)
+            {
+                var instruction = Items[i];
+                offset -= instruction.Length;
+                if (instruction.Label == label)
+                    return offset;
+            }
             throw new ArgumentException($"Label '{label}' does not exist");
         }
     }

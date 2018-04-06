@@ -60,6 +60,13 @@ namespace Assembler6502.Tests
         }
 
         [Test]
+        public void RelativeAddressOfLabelOnEarlierInstruction()
+        {
+            var address = _collection.RelativeAddressFor("LABEL", _collection[5]);
+            Assert.That((byte)address, Is.EqualTo(0xFB));
+        }
+
+        [Test]
         public void RelativeAddressOfUnknownLabelThrows()
         {
             Assert.That(() => _collection.RelativeAddressFor("UNKNOWN", _collection[1]), Throws.ArgumentException);
