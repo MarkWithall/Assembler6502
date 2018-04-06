@@ -109,12 +109,12 @@ namespace Assembler6502.Tests.InstructionTypes
             Assert.That(instruction.ErrorMessage, Is.EqualTo(expecetedError));
         }
 
-        [TestCase(LDA, Absolute, "LABEL", 13, "Error (line 13) - unknown address label 'LABEL'.")]
-        public void LabelErrorMessage(OpCode code, AddressingMode mode, string addressString, int lineNumber, string expectedError)
+        [Test]
+        public void UnknownLabelErrorMessage()
         {
             var labelFinder = Substitute.For<LabelFinder>();
-            var instruction = Instruction(code, mode, addressString, lineNumber: lineNumber, labelFinder: labelFinder);
-            Assert.That(instruction.ErrorMessage, Is.EqualTo(expectedError));
+            var instruction = Instruction(LDA, Absolute, "LABEL", lineNumber: 13, labelFinder: labelFinder);
+            Assert.That(instruction.ErrorMessage, Is.EqualTo("Error (line 13) - unknown address label 'LABEL'."));
         }
 
         private static Instruction Instruction(
