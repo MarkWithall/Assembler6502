@@ -48,6 +48,8 @@ namespace Assembler6502.InstructionTypes
                     return $"Error (line {LineNumber}) - two byte address must be less than 65536.";
                 if (Regex.IsMatch(AddressString, @"^\w+$") && !_labelFinder.HasLabel(AddressString))
                     return $"Error (line {LineNumber}) - unknown address label '{AddressString}'.";
+                if (Mode == Relative && Address > 0x7F)
+                    return $"Error (line {LineNumber}) - address label 'LABEL' is greater than 127 bytes away.";
                 return null;
             }
         }
