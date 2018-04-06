@@ -117,14 +117,14 @@ namespace Assembler6502.Tests.InstructionTypes
             Assert.That(instruction.ErrorMessage, Is.EqualTo("Error (line 13) - unknown address label 'LABEL'."));
         }
 
-        [TestCase]
-        public void RelativeAddressToFarErrorMessage()
+        [TestCase((ushort)128, "Error (line 13) - address label 'LABEL' is greater than 127 bytes away.")]
+        public void RelativeAddressToFarErrorMessage(ushort relativeAddress, string expectedError)
         {
             var labelFinder = Substitute.For<LabelFinder>();
             labelFinder.HasLabel(Arg.Any<string>()).Returns(true);
-            labelFinder.RelativeAddressFor(Arg.Any<string>(), Arg.Any<Instruction>()).Returns((ushort)128);
+            labelFinder.RelativeAddressFor(Arg.Any<string>(), Arg.Any<Instruction>()).Returns(relativeAddress);
             var instruction = Instruction(BNE, Relative, "LABEL", lineNumber: 13, labelFinder: labelFinder);
-            Assert.That(instruction.ErrorMessage, Is.EqualTo("Error (line 13) - address label 'LABEL' is greater than 127 bytes away."));
+            Assert.That(instruction.ErrorMessage, Is.EqualTo(expectedError));
         }
 
         private static Instruction Instruction(
