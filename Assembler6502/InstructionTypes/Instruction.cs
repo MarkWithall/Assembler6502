@@ -42,14 +42,16 @@ namespace Assembler6502.InstructionTypes
             {
                 if (!InstructionInformation.Instructions.ContainsKey((Code, Mode)))
                    return $"Error (line {LineNumber}) - invalid op code/addressing mode combination.";
+                if (Mode == Relative && (short)Address > 127)
+                    return $"Error (line {LineNumber}) - address label 'LABEL' is greater than 127 bytes away.";
+                if (Mode == Relative && (short)Address < -127)
+                    return $"Error (line {LineNumber}) - address label 'LABEL' is greater than -128 bytes away.";
                 if (this is SingleByteAddressInstruction && Address > 0xFF)
                     return $"Error (line {LineNumber}) - single byte address must be less than 256.";
                 if (this is TwoByteAddressInstruction && Regex.IsMatch(AddressString, @"^\$[0-9A-Z]{5,}$"))
                     return $"Error (line {LineNumber}) - two byte address must be less than 65536.";
                 if (Regex.IsMatch(AddressString, @"^\w+$") && !_labelFinder.HasLabel(AddressString))
                     return $"Error (line {LineNumber}) - unknown address label '{AddressString}'.";
-                if (Mode == Relative && Address > 0x7F)
-                    return $"Error (line {LineNumber}) - address label 'LABEL' is greater than 127 bytes away.";
                 return null;
             }
         }
