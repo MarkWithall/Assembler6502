@@ -14,7 +14,7 @@ namespace Assembler6502
             _factory = new InstructionFactory(labelFinder);
         }
 
-        public Instruction Parse(string instruction)
+        public Instruction Parse(string instruction, int lineNumber)
         {
             var normalizedInstruction = Regex.Replace(instruction, @"\s+", "").ToUpperInvariant();
 
@@ -22,7 +22,7 @@ namespace Assembler6502
             var opCode = ParseOpCode(instructionPart.Substring(0, 3));
             var (mode, addressString) = ParseAddress(instructionPart.Substring(3));
 
-            return _factory.Create(opCode, mode, addressString, 0, label);
+            return _factory.Create(opCode, mode, addressString, lineNumber, label);
         }
 
         private static (string, string) ParseLabel(string normalizedInstruction)

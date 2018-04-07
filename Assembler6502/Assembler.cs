@@ -4,16 +4,24 @@ namespace Assembler6502
 {
     public static class Assembler
     {
-        public static byte[] Assemble(string[] sourceCode, ushort startingAddress)
+        public static (byte[] binary, string[] errors) Assemble(string[] sourceCode, ushort startingAddress)
         {
             var instructions = new InstructionCollection(startingAddress);
             var parser = new InstructionParser(instructions);
-            foreach (var instruction in sourceCode.Select(StripComments).Where(l => l != string.Empty).Select(parser.Parse))
+            var ins = sourceCode
+                .Select((l, i) => (Line: StripComments(l), LineNumber: i + 1))
+                .Where(l => l.Line != string.Empty)
+                .Select(l => parser.Parse(l.Line, l.LineNumber));
+            foreach (var instruction in ins)
                 instructions.Add(instruction);
+
+            string[] errors = instructions.Select(i => i.ErrorMessage).Where(m => m != null).ToArray();
+            if (errors.Any())
+                return (null, errors);
 
             byte[] addressBytes = {(byte) startingAddress, (byte) (startingAddress >> 8)};
 
-            return addressBytes.Concat(instructions.SelectMany(i => i.Bytes)).ToArray();
+            return (addressBytes.Concat(instructions.SelectMany(i => i.Bytes)).ToArray(), null);
         }
 
         private static string StripComments(string line)

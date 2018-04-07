@@ -17,7 +17,7 @@ namespace Assembler6502.Tests
                 "RTS"
             };
 
-            var binary = Assembler.Assemble(sourceCode, 0x033C);
+            var (binary, _) = Assembler.Assemble(sourceCode, 0x033C);
 
             byte[] expectedBinary =
             {
@@ -46,7 +46,7 @@ namespace Assembler6502.Tests
                 "RTS"
             };
 
-            var binary = Assembler.Assemble(sourceCode, 0x033C);
+            var (binary, _) = Assembler.Assemble(sourceCode, 0x033C);
 
             byte[] expectedBinary =
             {
@@ -77,7 +77,7 @@ namespace Assembler6502.Tests
                 "RTS ; return from subroutine"
             };
 
-            var binary = Assembler.Assemble(sourceCode, 0x033C);
+            var (binary, _) = Assembler.Assemble(sourceCode, 0x033C);
 
             byte[] expectedBinary =
             {
@@ -107,7 +107,7 @@ namespace Assembler6502.Tests
                 "       RTS"
             };
 
-            var binary = Assembler.Assemble(sourceCode, 0x033C);
+            var (binary, _) = Assembler.Assemble(sourceCode, 0x033C);
 
             byte[] expectedBinary =
             {
@@ -122,6 +122,32 @@ namespace Assembler6502.Tests
             };
 
             Assert.AreEqual(expectedBinary, binary);
+        }
+
+        [Test]
+        public void CodeWithErrors()
+        {
+            string[] sourceCode =
+            {
+                "; print 'Y' if memeory address content is non-zero, otherwise 'N'",
+                "       LDA $0380   ; load memory address into A",
+                "       BEQ *LABEL1 ; check if it was 0",
+                "       LDA #$59    ; load 'Y' into A",
+                "       JMP END     ; got to end",
+                "LABEL: LDA #$4E    ; load 'N' into A",
+                "END:   JSR $FFD21  ; write the character to the screen",
+                "       RTS"
+            };
+
+            var (_, errors) = Assembler.Assemble(sourceCode, 0x033C);
+
+            string[] expectedErrors =
+            {
+                "Error (line 3) - unknown address label 'LABEL1'.",
+                "Error (line 7) - two byte address must be less than 65536."
+            };
+
+            Assert.AreEqual(expectedErrors, errors);
         }
     }
 }
