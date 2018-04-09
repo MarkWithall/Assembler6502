@@ -42,6 +42,8 @@ namespace Assembler6502.InstructionTypes
             {
                 if (this is UnknownInstruction && Code == OpCode.Unknown)
                     return $"Error (line {LineNumber}) - unknown op code.";
+                if (this is UnknownInstruction && Mode == Unknown)
+                    return $"Error (line {LineNumber}) - unknown addressing mode.";
                 if (!InstructionInformation.Instructions.ContainsKey((Code, Mode)))
                    return $"Error (line {LineNumber}) - invalid op code/addressing mode combination.";
                 if (AddressString != null && Regex.IsMatch(AddressString, @"^\w+$") && !_labelFinder.HasLabel(AddressString))

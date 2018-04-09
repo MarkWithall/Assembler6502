@@ -135,6 +135,13 @@ namespace Assembler6502.Tests.InstructionTypes
             Assert.That(instruction.ErrorMessage, Is.EqualTo("Error (line 13) - unknown op code."));
         }
 
+        [Test]
+        public void UnknownAddressingModeErrorMessage()
+        {
+            var instruction = Instruction(LDA, AddressingMode.Unknown, lineNumber: 42);
+            Assert.That(instruction.ErrorMessage, Is.EqualTo("Error (line 42) - unknown addressing mode."));
+        }
+
         private static Instruction Instruction(
             OpCode code,
             AddressingMode mode,
