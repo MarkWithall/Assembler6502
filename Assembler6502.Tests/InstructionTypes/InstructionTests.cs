@@ -128,6 +128,13 @@ namespace Assembler6502.Tests.InstructionTypes
             Assert.That(instruction.ErrorMessage, Is.EqualTo(expectedError));
         }
 
+        [Test]
+        public void UnknownOpCodeErrorMessage()
+        {
+            var instruction = Instruction(OpCode.Unknown, Absolute, lineNumber: 13);
+            Assert.That(instruction.ErrorMessage, Is.EqualTo("Error (line 13) - unknown op code."));
+        }
+
         private static Instruction Instruction(
             OpCode code,
             AddressingMode mode,
