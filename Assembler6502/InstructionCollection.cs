@@ -19,6 +19,12 @@ namespace Assembler6502
 
         public IEnumerable<string> ErrorMessages => Items.Select(i => i.ErrorMessage).Where(m => m != null);
 
+        public void AddRange(IEnumerable<Instruction> instructions)
+        {
+            foreach (var instruction in instructions)
+                Add(instruction);
+        }
+
         public bool HasLabel(string label)
         {
             return Items.Any(i => i.Label == label);

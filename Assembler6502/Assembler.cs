@@ -12,8 +12,7 @@ namespace Assembler6502
                 .Select((l, i) => (Line: StripComments(l), LineNumber: i + 1))
                 .Where(l => l.Line != string.Empty)
                 .Select(l => parser.Parse(l.Line, l.LineNumber));
-            foreach (var instruction in ins)
-                instructions.Add(instruction);
+            instructions.AddRange(ins);
 
             var errors = instructions.ErrorMessages.ToArray();
             if (errors.Any())
