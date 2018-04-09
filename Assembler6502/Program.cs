@@ -19,7 +19,14 @@ namespace Assembler6502
 
             var sourceCode = File.ReadAllLines(inputFilePath);
 
-            var (binary, _) = Assembler.Assemble(sourceCode, startingAddress);
+            var (binary, errors) = Assembler.Assemble(sourceCode, startingAddress);
+
+            if (errors != null)
+            {
+                foreach (var error in errors)
+                    Console.WriteLine(error);
+                return 2;
+            }
 
             try
             {
