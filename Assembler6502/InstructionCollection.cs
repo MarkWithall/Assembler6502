@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Assembler6502.InstructionTypes;
@@ -13,6 +14,8 @@ namespace Assembler6502
         {
             _startingAddress = startingAddress;
         }
+
+        public IEnumerable<string> ErrorMessages => Items.Select(i => i.ErrorMessage).Where(m => m != null);
 
         public bool HasLabel(string label)
         {

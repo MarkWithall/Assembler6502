@@ -15,7 +15,7 @@ namespace Assembler6502
             foreach (var instruction in ins)
                 instructions.Add(instruction);
 
-            string[] errors = instructions.Select(i => i.ErrorMessage).Where(m => m != null).ToArray();
+            var errors = instructions.ErrorMessages.ToArray();
             if (errors.Any())
                 return (null, errors);
 
