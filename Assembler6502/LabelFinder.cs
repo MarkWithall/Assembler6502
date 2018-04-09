@@ -7,5 +7,5 @@ namespace Assembler6502
         bool HasLabel(string label);
         ushort AbsoluteAddressFor(string label);
         ushort RelativeAddressFor(string label, Instruction relativeTo);
-	}
+    }
 }
