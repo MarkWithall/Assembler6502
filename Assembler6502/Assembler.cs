@@ -21,7 +21,7 @@ namespace Assembler6502
 
             byte[] addressBytes = {(byte) startingAddress, (byte) (startingAddress >> 8)};
 
-            return (addressBytes.Concat(instructions.SelectMany(i => i.Bytes)).ToArray(), null);
+            return (addressBytes.Concat(instructions.Bytes).ToArray(), null);
         }
 
         private static string StripComments(string line)
