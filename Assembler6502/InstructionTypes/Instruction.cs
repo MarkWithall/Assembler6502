@@ -41,21 +41,21 @@ namespace Assembler6502.InstructionTypes
             get
             {
                 if (this is UnknownInstruction && Code == OpCode.Unknown)
-                    return $"Error (line {LineNumber}) - unknown op code.";
+                    return Error("unknown op code");
                 if (this is UnknownInstruction && Mode == Unknown)
-                    return $"Error (line {LineNumber}) - unknown addressing mode.";
+                    return Error("unknown addressing mode");
                 if (!InstructionInformation.Instructions.ContainsKey((Code, Mode)))
-                   return $"Error (line {LineNumber}) - invalid op code/addressing mode combination.";
+                   return Error("invalid op code/addressing mode combination");
                 if (AddressString != null && Regex.IsMatch(AddressString, @"^\w+$") && !_labelFinder.HasLabel(AddressString))
-                    return $"Error (line {LineNumber}) - unknown address label '{AddressString}'.";
+                    return Error($"unknown address label '{AddressString}'");
                 if (Mode == Relative && (short)Address > 127)
-                    return $"Error (line {LineNumber}) - address label 'LABEL' is greater than 127 bytes away.";
+                    return Error("address label 'LABEL' is greater than 127 bytes away");
                 if (Mode == Relative && (short)Address < -127)
-                    return $"Error (line {LineNumber}) - address label 'LABEL' is greater than -128 bytes away.";
+                    return Error("address label 'LABEL' is greater than -128 bytes away");
                 if (this is SingleByteAddressInstruction && Address > 0xFF)
-                    return $"Error (line {LineNumber}) - single byte address must be less than 256.";
+                    return Error("single byte address must be less than 256");
                 if (this is TwoByteAddressInstruction && Regex.IsMatch(AddressString, @"^\$[0-9A-Z]{5,}$"))
-                    return $"Error (line {LineNumber}) - two byte address must be less than 65536.";
+                    return Error("two byte address must be less than 65536");
                 return null;
             }
         }
@@ -63,5 +63,7 @@ namespace Assembler6502.InstructionTypes
         public abstract ushort Length { get; }
 
         public abstract IEnumerable<byte> Bytes { get; }
+
+        private string Error(string message) => $"Error (line {LineNumber}) - {message}.";
     }
 }
