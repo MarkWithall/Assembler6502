@@ -36,14 +36,10 @@ namespace Assembler6502.InstructionTypes
 
         public bool IsValid => ErrorMessage == null;
 
-        public string ErrorMessage
+        public virtual string ErrorMessage
         {
             get
             {
-                if (this is UnknownInstruction && Code == OpCode.Unknown)
-                    return Error("unknown op code");
-                if (this is UnknownInstruction && Mode == Unknown)
-                    return Error("unknown addressing mode");
                 if (!InstructionInformation.Instructions.ContainsKey((Code, Mode)))
                    return Error("invalid op code/addressing mode combination");
                 if (AddressString != null && Regex.IsMatch(AddressString, @"^\w+$") && !_labelFinder.HasLabel(AddressString))
@@ -64,6 +60,6 @@ namespace Assembler6502.InstructionTypes
 
         public abstract IEnumerable<byte> Bytes { get; }
 
-        private string Error(string message) => $"Error (line {LineNumber}) - {message}.";
+        protected string Error(string message) => $"Error (line {LineNumber}) - {message}.";
     }
 }
