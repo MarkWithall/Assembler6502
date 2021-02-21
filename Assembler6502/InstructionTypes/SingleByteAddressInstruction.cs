@@ -5,7 +5,8 @@ namespace Assembler6502.InstructionTypes
 {
     internal sealed class SingleByteAddressInstruction : Instruction
     {
-        public SingleByteAddressInstruction(OpCode code, AddressingMode mode, ILabelFinder labelFinder) : base(code, mode, labelFinder)
+        public SingleByteAddressInstruction(OpCode code, AddressingMode mode, int lineNumber, ILabelFinder labelFinder)
+            : base(code, mode, lineNumber, labelFinder)
         {
         }
 
