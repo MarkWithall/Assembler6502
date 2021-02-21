@@ -1,0 +1,35 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ windows-latest, macos-latest ]
+        configuration: [ 'Debug', 'Release' ]
+
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Clear NuGet Cache
+      run: dotnet nuget locals all --clear
+
+    - name: Build
+      run: dotnet build --configuration ${{matrix.configuration}} Assembler6502.sln
+
+    - name: Test
+      run: dotnet test --configuration ${{matrix.configuration}} Assembler6502.sln
