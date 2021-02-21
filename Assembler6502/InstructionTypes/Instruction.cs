@@ -9,14 +9,15 @@ namespace Assembler6502.InstructionTypes
     {
         private readonly ILabelFinder _labelFinder;
 
-        protected Instruction(OpCode code, ILabelFinder labelFinder)
+        protected Instruction(OpCode code, AddressingMode mode, ILabelFinder labelFinder)
         {
             Code = code;
+            Mode = mode;
             _labelFinder = labelFinder;
         }
 
         public OpCode Code { get; }
-        public AddressingMode Mode { get; set; }
+        public AddressingMode Mode { get; }
         public string? AddressString { get; set; }
         public int LineNumber { get; set; }
         public string? Label { get; set; }
