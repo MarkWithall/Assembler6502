@@ -25,7 +25,7 @@ namespace Assembler6502
             return _factory.Create(opCode, mode, addressString, lineNumber, label);
         }
 
-        private static (string, string) ParseLabel(string normalizedInstruction)
+        private static (string?, string) ParseLabel(string normalizedInstruction)
         {
             var parts = normalizedInstruction.Split(':');
             return parts.Length == 2 ? (parts[0], parts[1]) : (null, normalizedInstruction);
@@ -36,55 +36,26 @@ namespace Assembler6502
             return Enum.TryParse<OpCode>(opCodeString, out var code) ? code : OpCode.Unknown;
         }
 
-        private static (AddressingMode, string) ParseAddress(string addressString)
-        {
-            switch (addressString)
+        private static (AddressingMode, string?) ParseAddress(string addressString) =>
+            addressString switch
             {
-                case var s when s == string.Empty:
-                    return (Implicit, null);
+                var s when s == string.Empty => (Implicit, null),
+                var s when s == "A" => (Accumulator, null),
+                var s when TryMatch(s, "#", "", out var address) => (Immediate, address),
+                var s when TryMatch(s, "*", "", out var address) => (Relative, address),
+                var s when TryMatch(s, "<", ",X", out var address) => (ZeroPageXIndexed, address),
+                var s when TryMatch(s, "", ",X", out var address) => (AbsoluteXIndexed, address),
+                var s when TryMatch(s, "(", "),Y", out var address) => (IndirectYIndexed, address),
+                var s when TryMatch(s, "(", ",X)", out var address) => (XIndexedIndirect, address),
+                var s when TryMatch(s, "(", ")", out var address) => (Indirect, address),
+                var s when TryMatch(s, "<", ",Y", out var address) => (ZeroPageYIndexed, address),
+                var s when TryMatch(s, "", ",Y", out var address) => (AbsoluteYIndexed, address),
+                var s when TryMatch(s, "<", "", out var address) => (ZeroPage, address),
+                var s when Regex.IsMatch(s, @"^(\$[0-9A-Z]+|\w+)$") => (Absolute, ExtractNumber(addressString, 0, 0)),
+                _ => (Unknown, null)
+            };
 
-                case var s when s == "A":
-                    return (Accumulator, null);
-
-                case var s when TryMatch(s, "#", "", out var address):
-                    return (Immediate, address);
-
-                case var s when TryMatch(s, "*", "", out var address):
-                    return (Relative, address);
-
-                case var s when TryMatch(s, "<", ",X", out var address):
-                    return (ZeroPageXIndexed, address);
-
-                case var s when TryMatch(s, "", ",X", out var address):
-                    return (AbsoluteXIndexed, address);
-
-                case var s when TryMatch(s, "(", "),Y", out var address):
-                    return (IndirectYIndexed, address);
-
-                case var s when TryMatch(s, "(", ",X)", out var address):
-                    return (XIndexedIndirect, address);
-
-                case var s when TryMatch(s, "(", ")", out var address):
-                    return (Indirect, address);
-
-                case var s when TryMatch(s, "<", ",Y", out var address):
-                    return (ZeroPageYIndexed, address);
-
-                case var s when TryMatch(s, "", ",Y", out var address):
-                    return (AbsoluteYIndexed, address);
-
-                case var s when TryMatch(s, "<", "", out var address):
-                    return (ZeroPage, address);
-
-                case var s when Regex.IsMatch(s, @"^(\$[0-9A-Z]+|\w+)$"):
-                    return (Absolute, ExtractNumber(addressString, 0, 0));
-
-                default:
-                    return (Unknown, null);
-            }
-        }
-
-        private static bool TryMatch(string addressString, string prefix, string suffix, out string address)
+        private static bool TryMatch(string addressString, string prefix, string suffix, out string? address)
         {
             address = null;
 

@@ -12,29 +12,17 @@ namespace Assembler6502
             _labelFinder = labelFinder;
         }
 
-        public Instruction Create(OpCode code, AddressingMode mode, string addressString, int lineNumber, string label)
+        public Instruction Create(OpCode code, AddressingMode mode, string? addressString, int lineNumber, string? label)
         {
-            Instruction instruction;
-            switch (Code: code, Mode: mode)
+            Instruction instruction = (Code: code, Mode: mode) switch
             {
-                case var i when i.Code == OpCode.Unknown || i.Mode == AddressingMode.Unknown:
-                    instruction = new UnknownInstruction();
-                    break;
-                case var i when SingleByteAddressModes.Contains(i.Mode):
-                    instruction = new SingleByteAddressInstruction(_labelFinder);
-                    break;
-                case var i when TwoByteAddressModes.Contains(i.Mode):
-                    instruction = new TwoByteAddressInstruction(_labelFinder);
-                    break;
-                default:
-                    instruction = new NoAddressInstruction();
-                    break;
-            }
+                var i when i.Code == OpCode.Unknown || i.Mode == AddressingMode.Unknown => new UnknownInstruction(code, mode, lineNumber, _labelFinder),
+                var i when SingleByteAddressModes.Contains(i.Mode) => new SingleByteAddressInstruction(code, mode, lineNumber, _labelFinder),
+                var i when TwoByteAddressModes.Contains(i.Mode) => new TwoByteAddressInstruction(code, mode, lineNumber, _labelFinder),
+                _ => new NoAddressInstruction(code, mode, lineNumber, _labelFinder)
+            };
 
-            instruction.Code = code;
-            instruction.Mode = mode;
             instruction.AddressString = addressString;
-            instruction.LineNumber = lineNumber;
             instruction.Label = label;
 
             return instruction;

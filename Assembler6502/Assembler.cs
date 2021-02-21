@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Assembler6502
 {
@@ -16,11 +17,11 @@ namespace Assembler6502
 
             var errors = instructions.ErrorMessages.ToArray();
             if (errors.Any())
-                return (null, errors);
+                return (Array.Empty<byte>(), errors);
 
             byte[] addressBytes = {(byte) startingAddress, (byte) (startingAddress >> 8)};
 
-            return (addressBytes.Concat(instructions.Bytes).ToArray(), null);
+            return (addressBytes.Concat(instructions.Bytes).ToArray(), Array.Empty<string>());
         }
 
         private static string StripComments(string line)

@@ -69,7 +69,7 @@ namespace Assembler6502.Tests
 
         private static Instruction Parse(string instructionString)
         {
-            return new InstructionParser(null).Parse(instructionString, 0);
+            return new InstructionParser(default!).Parse(instructionString, 0);
         }
     }
 }
