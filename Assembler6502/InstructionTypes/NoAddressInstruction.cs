@@ -3,7 +3,7 @@ using static Assembler6502.InstructionInformation;
 
 namespace Assembler6502.InstructionTypes
 {
-    public class NoAddressInstruction : Instruction
+    public sealed class NoAddressInstruction : Instruction
     {
         public NoAddressInstruction() : base(null)
         {

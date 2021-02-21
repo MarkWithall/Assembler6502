@@ -3,7 +3,7 @@ using static Assembler6502.InstructionInformation;
 
 namespace Assembler6502
 {
-    public class InstructionFactory
+    public sealed class InstructionFactory
     {
         private readonly ILabelFinder _labelFinder;
 
