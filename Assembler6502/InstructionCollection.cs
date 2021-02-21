@@ -17,7 +17,8 @@ namespace Assembler6502
 
         public IEnumerable<byte> Bytes => Items.SelectMany(i => i.Bytes);
 
-        public IEnumerable<string> ErrorMessages => Items.Select(i => i.ErrorMessage).Where(m => m is not null);
+        // ReSharper disable once RedundantEnumerableCastCall
+        public IEnumerable<string> ErrorMessages => Items.Select(i => i.ErrorMessage).Where(m => m is not null).Cast<string>();
 
         public void AddRange(IEnumerable<Instruction> instructions)
         {

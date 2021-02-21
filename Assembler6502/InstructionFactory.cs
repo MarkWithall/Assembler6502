@@ -12,7 +12,7 @@ namespace Assembler6502
             _labelFinder = labelFinder;
         }
 
-        public Instruction Create(OpCode code, AddressingMode mode, string addressString, int lineNumber, string label)
+        public Instruction Create(OpCode code, AddressingMode mode, string? addressString, int lineNumber, string? label)
         {
             Instruction instruction;
             switch (Code: code, Mode: mode)

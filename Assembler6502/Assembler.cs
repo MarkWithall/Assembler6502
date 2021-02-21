@@ -4,7 +4,7 @@ namespace Assembler6502
 {
     internal static class Assembler
     {
-        public static (byte[] binary, string[] errors) Assemble(string[] sourceCode, ushort startingAddress)
+        public static (byte[] binary, string[]? errors) Assemble(string[] sourceCode, ushort startingAddress)
         {
             var instructions = new InstructionCollection(startingAddress);
             var parser = new InstructionParser(instructions);
@@ -16,7 +16,7 @@ namespace Assembler6502
 
             var errors = instructions.ErrorMessages.ToArray();
             if (errors.Any())
-                return (null, errors);
+                return (default!, errors);
 
             byte[] addressBytes = {(byte) startingAddress, (byte) (startingAddress >> 8)};
 

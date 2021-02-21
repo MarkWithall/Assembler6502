@@ -8,7 +8,7 @@ namespace Assembler6502.Tests
     [TestFixture]
     public class InstructionCollectionTests
     {
-        private InstructionCollection _collection;
+        private InstructionCollection _collection = default!;
 
         [SetUp]
         public void Setup()
@@ -86,9 +86,9 @@ namespace Assembler6502.Tests
             Assert.That(() => _collection.RelativeAddressFor("UNKNOWN", _collection[1]), Throws.ArgumentException);
         }
 
-        private static Instruction Instruction(OpCode code, AddressingMode mode, string addressString = null, string label = null)
+        private static Instruction Instruction(OpCode code, AddressingMode mode, string? addressString = null, string? label = null)
         {
-            return new InstructionFactory(null).Create(code, mode, addressString, 0, label);
+            return new InstructionFactory(default!).Create(code, mode, addressString, 0, label);
         }
     }
 }

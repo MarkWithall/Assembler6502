@@ -145,10 +145,10 @@ namespace Assembler6502.Tests.InstructionTypes
         private static Instruction Instruction(
             OpCode code,
             AddressingMode mode,
-            string addressString = null,
-            string label = null,
+            string? addressString = null,
+            string? label = null,
             int lineNumber = 0,
-            ILabelFinder labelFinder = null)
+            ILabelFinder labelFinder = default!)
         {
             return new InstructionFactory(labelFinder).Create(code, mode, addressString, lineNumber, label);
         }

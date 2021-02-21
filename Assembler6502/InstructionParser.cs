@@ -25,7 +25,7 @@ namespace Assembler6502
             return _factory.Create(opCode, mode, addressString, lineNumber, label);
         }
 
-        private static (string, string) ParseLabel(string normalizedInstruction)
+        private static (string?, string) ParseLabel(string normalizedInstruction)
         {
             var parts = normalizedInstruction.Split(':');
             return parts.Length == 2 ? (parts[0], parts[1]) : (null, normalizedInstruction);
@@ -36,7 +36,7 @@ namespace Assembler6502
             return Enum.TryParse<OpCode>(opCodeString, out var code) ? code : OpCode.Unknown;
         }
 
-        private static (AddressingMode, string) ParseAddress(string addressString)
+        private static (AddressingMode, string?) ParseAddress(string addressString)
         {
             switch (addressString)
             {
@@ -84,7 +84,7 @@ namespace Assembler6502
             }
         }
 
-        private static bool TryMatch(string addressString, string prefix, string suffix, out string address)
+        private static bool TryMatch(string addressString, string prefix, string suffix, out string? address)
         {
             address = null;
 
