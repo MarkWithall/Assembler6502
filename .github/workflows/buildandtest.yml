@@ -25,6 +25,9 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
+    - name: Clear NuGet
+      run: dotnet nuget locals all --clear
+
     - name: Build
       run: dotnet build --configuration ${{matrix.configuration}} Assembler6502.sln
 
