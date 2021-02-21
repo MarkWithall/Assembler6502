@@ -1,6 +1,6 @@
 # Assembler6502
 
-[![Build status](https://ci.appveyor.com/api/projects/status/oid9ll2vl0nbe04d/branch/master?svg=true)](https://ci.appveyor.com/project/MarkWithall/assembler6502)
+[![Build and test](https://github.com/MarkWithall/Assembler6502/actions/workflows/buildandtest.yml/badge.svg)](https://github.com/MarkWithall/Assembler6502/actions/workflows/buildandtest.yml)
 
 A 6502 assembler for the C64 to help my learning of 6502 assembly language.
 
