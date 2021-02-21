@@ -5,7 +5,7 @@ namespace Assembler6502.InstructionTypes
 {
     internal sealed class NoAddressInstruction : Instruction
     {
-        public NoAddressInstruction() : base(null)
+        public NoAddressInstruction(ILabelFinder labelFinder) : base(labelFinder)
         {
         }
 

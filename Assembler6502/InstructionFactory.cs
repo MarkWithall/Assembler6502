@@ -18,7 +18,7 @@ namespace Assembler6502
             switch (Code: code, Mode: mode)
             {
                 case var i when i.Code == OpCode.Unknown || i.Mode == AddressingMode.Unknown:
-                    instruction = new UnknownInstruction();
+                    instruction = new UnknownInstruction(_labelFinder);
                     break;
                 case var i when SingleByteAddressModes.Contains(i.Mode):
                     instruction = new SingleByteAddressInstruction(_labelFinder);
@@ -27,7 +27,7 @@ namespace Assembler6502
                     instruction = new TwoByteAddressInstruction(_labelFinder);
                     break;
                 default:
-                    instruction = new NoAddressInstruction();
+                    instruction = new NoAddressInstruction(_labelFinder);
                     break;
             }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using static Assembler6502.AddressingMode;
@@ -8,9 +7,9 @@ namespace Assembler6502.InstructionTypes
 {
     internal abstract class Instruction
     {
-        private readonly ILabelFinder? _labelFinder;
+        private readonly ILabelFinder _labelFinder;
 
-        protected Instruction(ILabelFinder? labelFinder)
+        protected Instruction(ILabelFinder labelFinder)
         {
             _labelFinder = labelFinder;
         }
@@ -30,8 +29,8 @@ namespace Assembler6502.InstructionTypes
                 if (Regex.IsMatch(AddressString, @"^\$([0-9A-Z]{1,4})$"))
                     return ushort.Parse(AddressString.Substring(1), NumberStyles.HexNumber);
                 if (Mode == Relative)
-                    return _labelFinder?.RelativeAddressFor(AddressString, this) ?? throw new InvalidOperationException("No label finder");
-                return _labelFinder?.AbsoluteAddressFor(AddressString) ?? throw new InvalidOperationException("No label finder");
+                    return _labelFinder.RelativeAddressFor(AddressString, this);
+                return _labelFinder.AbsoluteAddressFor(AddressString);
             }
         }
 
@@ -43,7 +42,7 @@ namespace Assembler6502.InstructionTypes
             {
                 if (!InstructionInformation.Instructions.ContainsKey((Code, Mode)))
                    return Error("invalid op code/addressing mode combination");
-                if (AddressString is not null && Regex.IsMatch(AddressString, @"^\w+$") && !(_labelFinder?.HasLabel(AddressString) ?? false))
+                if (AddressString is not null && Regex.IsMatch(AddressString, @"^\w+$") && !_labelFinder.HasLabel(AddressString))
                     return Error($"unknown address label '{AddressString}'");
                 if (Mode == Relative && (short)Address > 127)
                     return Error("address label 'LABEL' is greater than 127 bytes away");

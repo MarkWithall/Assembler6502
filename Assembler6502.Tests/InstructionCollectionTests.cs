@@ -1,4 +1,5 @@
 ﻿using Assembler6502.InstructionTypes;
+using NSubstitute;
 using NUnit.Framework;
 using static Assembler6502.AddressingMode;
 using static Assembler6502.OpCode;
@@ -88,7 +89,7 @@ namespace Assembler6502.Tests
 
         private static Instruction Instruction(OpCode code, AddressingMode mode, string? addressString = null, string? label = null)
         {
-            return new InstructionFactory(default!).Create(code, mode, addressString, 0, label);
+            return new InstructionFactory(Substitute.For<ILabelFinder>()).Create(code, mode, addressString, 0, label);
         }
     }
 }
