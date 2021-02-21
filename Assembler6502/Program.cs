@@ -22,11 +22,9 @@ if (errors != null)
 
 try
 {
-    using (var stream = new FileStream(outputFilePath, FileMode.Create))
-    using (var writer = new BinaryWriter(stream))
-    {
-        writer.Write(binary);
-    }
+    using var stream = new FileStream(outputFilePath, FileMode.Create);
+    using var writer = new BinaryWriter(stream);
+    writer.Write(binary);
 }
 catch (Exception ex)
 {
