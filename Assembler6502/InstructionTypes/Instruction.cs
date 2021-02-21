@@ -50,7 +50,7 @@ namespace Assembler6502.InstructionTypes
                     return Error("address label 'LABEL' is greater than -128 bytes away");
                 if (this is SingleByteAddressInstruction && Address > 0xFF)
                     return Error("single byte address must be less than 256");
-                if (this is TwoByteAddressInstruction && Regex.IsMatch(AddressString, @"^\$[0-9A-Z]{5,}$"))
+                if (AddressString is not null && this is TwoByteAddressInstruction && Regex.IsMatch(AddressString, @"^\$[0-9A-Z]{5,}$"))
                     return Error("two byte address must be less than 65536");
                 return null;
             }
