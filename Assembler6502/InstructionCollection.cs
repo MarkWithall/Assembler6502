@@ -17,7 +17,7 @@ namespace Assembler6502
 
         public IEnumerable<byte> Bytes => Items.SelectMany(i => i.Bytes);
 
-        public IEnumerable<string> ErrorMessages => Items.Select(i => i.ErrorMessage).Where(m => m != null);
+        public IEnumerable<string> ErrorMessages => Items.Select(i => i.ErrorMessage).Where(m => m is not null);
 
         public void AddRange(IEnumerable<Instruction> instructions)
         {

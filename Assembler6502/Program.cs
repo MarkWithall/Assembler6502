@@ -13,7 +13,7 @@ var outputFilePath = args[1];
 ushort startingAddress = 0x033C;
 var sourceCode = File.ReadAllLines(inputFilePath);
 var (binary, errors) = Assembler.Assemble(sourceCode, startingAddress);
-if (errors != null)
+if (errors is not null)
 {
     foreach (var error in errors)
         Console.WriteLine(error);

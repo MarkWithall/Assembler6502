@@ -24,7 +24,7 @@ namespace Assembler6502.InstructionTypes
         {
             get
             {
-                if (AddressString == null)
+                if (AddressString is null)
                     return 0x0000;
                 if (Regex.IsMatch(AddressString, @"^\$([0-9A-Z]{1,4})$"))
                     return ushort.Parse(AddressString.Substring(1), NumberStyles.HexNumber);
@@ -34,7 +34,7 @@ namespace Assembler6502.InstructionTypes
             }
         }
 
-        public bool IsValid => ErrorMessage == null;
+        public bool IsValid => ErrorMessage is null;
 
         public virtual string ErrorMessage
         {
@@ -42,7 +42,7 @@ namespace Assembler6502.InstructionTypes
             {
                 if (!InstructionInformation.Instructions.ContainsKey((Code, Mode)))
                    return Error("invalid op code/addressing mode combination");
-                if (AddressString != null && Regex.IsMatch(AddressString, @"^\w+$") && !_labelFinder.HasLabel(AddressString))
+                if (AddressString is not null && Regex.IsMatch(AddressString, @"^\w+$") && !_labelFinder.HasLabel(AddressString))
                     return Error($"unknown address label '{AddressString}'");
                 if (Mode == Relative && (short)Address > 127)
                     return Error("address label 'LABEL' is greater than 127 bytes away");
