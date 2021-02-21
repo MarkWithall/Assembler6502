@@ -34,7 +34,7 @@ namespace Assembler6502.Tests.InstructionTypes
         [Test]
         public void InstructionWithAbsoluteLabelGivesCorrectBytes()
         {
-            var labelFinder = Substitute.For<LabelFinder>();
+            var labelFinder = Substitute.For<ILabelFinder>();
             labelFinder.AbsoluteAddressFor("LABEL").Returns<ushort>(0x1342);
 
             var instruction = Instruction(JMP, Absolute, "LABEL", labelFinder: labelFinder);
@@ -47,7 +47,7 @@ namespace Assembler6502.Tests.InstructionTypes
         [Test]
         public void InstructionWithRelativeLabelGivesCorrectBytes()
         {
-            var labelFinder = Substitute.For<LabelFinder>();
+            var labelFinder = Substitute.For<ILabelFinder>();
             labelFinder.RelativeAddressFor("LABEL", Arg.Any<Instruction>()).Returns<ushort>(0x42);
 
             var instruction = Instruction(BEQ, Relative, "LABEL", labelFinder: labelFinder);
@@ -112,7 +112,7 @@ namespace Assembler6502.Tests.InstructionTypes
         [Test]
         public void UnknownLabelErrorMessage()
         {
-            var labelFinder = Substitute.For<LabelFinder>();
+            var labelFinder = Substitute.For<ILabelFinder>();
             var instruction = Instruction(LDA, Absolute, "LABEL", lineNumber: 13, labelFinder: labelFinder);
             Assert.That(instruction.ErrorMessage, Is.EqualTo("Error (line 13) - unknown address label 'LABEL'."));
         }
@@ -121,7 +121,7 @@ namespace Assembler6502.Tests.InstructionTypes
         [TestCase((ushort)0xFF7F, "Error (line 13) - address label 'LABEL' is greater than -128 bytes away.")]
         public void RelativeAddressToFarErrorMessage(ushort relativeAddress, string expectedError)
         {
-            var labelFinder = Substitute.For<LabelFinder>();
+            var labelFinder = Substitute.For<ILabelFinder>();
             labelFinder.HasLabel(Arg.Any<string>()).Returns(true);
             labelFinder.RelativeAddressFor(Arg.Any<string>(), Arg.Any<Instruction>()).Returns(relativeAddress);
             var instruction = Instruction(BNE, Relative, "LABEL", lineNumber: 13, labelFinder: labelFinder);
@@ -148,7 +148,7 @@ namespace Assembler6502.Tests.InstructionTypes
             string addressString = null,
             string label = null,
             int lineNumber = 0,
-            LabelFinder labelFinder = null)
+            ILabelFinder labelFinder = null)
         {
             return new InstructionFactory(labelFinder).Create(code, mode, addressString, lineNumber, label);
         }

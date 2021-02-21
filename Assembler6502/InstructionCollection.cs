@@ -6,7 +6,7 @@ using Assembler6502.InstructionTypes;
 
 namespace Assembler6502
 {
-    public class InstructionCollection : Collection<Instruction>, LabelFinder
+    internal sealed class InstructionCollection : Collection<Instruction>, ILabelFinder
     {
         private readonly ushort _startingAddress;
 
@@ -17,7 +17,7 @@ namespace Assembler6502
 
         public IEnumerable<byte> Bytes => Items.SelectMany(i => i.Bytes);
 
-        public IEnumerable<string> ErrorMessages => Items.Select(i => i.ErrorMessage).Where(m => m != null);
+        public IEnumerable<string> ErrorMessages => Items.Select(i => i.ErrorMessage).Where(m => m is not null);
 
         public void AddRange(IEnumerable<Instruction> instructions)
         {

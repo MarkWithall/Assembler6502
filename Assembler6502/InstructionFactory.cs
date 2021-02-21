@@ -3,11 +3,11 @@ using static Assembler6502.InstructionInformation;
 
 namespace Assembler6502
 {
-    public class InstructionFactory
+    internal sealed class InstructionFactory
     {
-        private readonly LabelFinder _labelFinder;
+        private readonly ILabelFinder _labelFinder;
 
-        public InstructionFactory(LabelFinder labelFinder)
+        public InstructionFactory(ILabelFinder labelFinder)
         {
             _labelFinder = labelFinder;
         }
@@ -15,7 +15,7 @@ namespace Assembler6502
         public Instruction Create(OpCode code, AddressingMode mode, string addressString, int lineNumber, string label)
         {
             Instruction instruction;
-            switch ((Code: code, Mode: mode))
+            switch (Code: code, Mode: mode)
             {
                 case var i when i.Code == OpCode.Unknown || i.Mode == AddressingMode.Unknown:
                     instruction = new UnknownInstruction();

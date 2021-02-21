@@ -2,7 +2,7 @@
 
 namespace Assembler6502
 {
-    public interface LabelFinder
+    internal interface ILabelFinder
     {
         bool HasLabel(string label);
         ushort AbsoluteAddressFor(string label);

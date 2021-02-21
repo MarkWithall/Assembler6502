@@ -3,9 +3,9 @@ using static Assembler6502.InstructionInformation;
 
 namespace Assembler6502.InstructionTypes
 {
-    public class TwoByteAddressInstruction : Instruction
+    internal sealed class TwoByteAddressInstruction : Instruction
     {
-        public TwoByteAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
+        public TwoByteAddressInstruction(ILabelFinder labelFinder) : base(labelFinder)
         {
         }
 

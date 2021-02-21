@@ -5,11 +5,11 @@ using static Assembler6502.AddressingMode;
 
 namespace Assembler6502
 {
-    public class InstructionParser
+    internal sealed class InstructionParser
     {
         private readonly InstructionFactory _factory;
 
-        public InstructionParser(LabelFinder labelFinder)
+        public InstructionParser(ILabelFinder labelFinder)
         {
             _factory = new InstructionFactory(labelFinder);
         }
