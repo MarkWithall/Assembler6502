@@ -5,7 +5,7 @@ namespace Assembler6502.InstructionTypes
 {
     public class TwoByteAddressInstruction : Instruction
     {
-        public TwoByteAddressInstruction(LabelFinder labelFinder) : base(labelFinder)
+        public TwoByteAddressInstruction(ILabelFinder labelFinder) : base(labelFinder)
         {
         }
 

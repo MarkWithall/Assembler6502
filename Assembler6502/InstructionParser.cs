@@ -9,7 +9,7 @@ namespace Assembler6502
     {
         private readonly InstructionFactory _factory;
 
-        public InstructionParser(LabelFinder labelFinder)
+        public InstructionParser(ILabelFinder labelFinder)
         {
             _factory = new InstructionFactory(labelFinder);
         }

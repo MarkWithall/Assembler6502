@@ -7,9 +7,9 @@ namespace Assembler6502.InstructionTypes
 {
     public abstract class Instruction
     {
-        private readonly LabelFinder _labelFinder;
+        private readonly ILabelFinder _labelFinder;
 
-        protected Instruction(LabelFinder labelFinder)
+        protected Instruction(ILabelFinder labelFinder)
         {
             _labelFinder = labelFinder;
         }

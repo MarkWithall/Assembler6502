@@ -5,9 +5,9 @@ namespace Assembler6502
 {
     public class InstructionFactory
     {
-        private readonly LabelFinder _labelFinder;
+        private readonly ILabelFinder _labelFinder;
 
-        public InstructionFactory(LabelFinder labelFinder)
+        public InstructionFactory(ILabelFinder labelFinder)
         {
             _labelFinder = labelFinder;
         }
