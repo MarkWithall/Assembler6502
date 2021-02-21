@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Assembler6502;
 
 if (args.Length != 2)
@@ -13,7 +14,7 @@ var outputFilePath = args[1];
 ushort startingAddress = 0x033C;
 var sourceCode = File.ReadAllLines(inputFilePath);
 var (binary, errors) = Assembler.Assemble(sourceCode, startingAddress);
-if (errors is not null)
+if (errors.Any())
 {
     foreach (var error in errors)
         Console.WriteLine(error);

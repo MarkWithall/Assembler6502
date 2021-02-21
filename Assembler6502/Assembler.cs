@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Assembler6502
 {
     internal static class Assembler
     {
-        public static (byte[] binary, string[]? errors) Assemble(string[] sourceCode, ushort startingAddress)
+        public static (byte[] binary, string[] errors) Assemble(string[] sourceCode, ushort startingAddress)
         {
             var instructions = new InstructionCollection(startingAddress);
             var parser = new InstructionParser(instructions);
@@ -16,11 +17,11 @@ namespace Assembler6502
 
             var errors = instructions.ErrorMessages.ToArray();
             if (errors.Any())
-                return (default!, errors);
+                return (Array.Empty<byte>(), errors);
 
             byte[] addressBytes = {(byte) startingAddress, (byte) (startingAddress >> 8)};
 
-            return (addressBytes.Concat(instructions.Bytes).ToArray(), null);
+            return (addressBytes.Concat(instructions.Bytes).ToArray(), Array.Empty<string>());
         }
 
         private static string StripComments(string line)
