@@ -5,7 +5,7 @@ namespace Assembler6502.InstructionTypes
 {
     internal sealed class UnknownInstruction : Instruction
     {
-        public UnknownInstruction(ILabelFinder labelFinder) : base(labelFinder)
+        public UnknownInstruction(OpCode code, ILabelFinder labelFinder) : base(code, labelFinder)
         {
         }
 

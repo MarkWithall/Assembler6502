@@ -16,13 +16,12 @@ namespace Assembler6502
         {
             Instruction instruction = (Code: code, Mode: mode) switch
             {
-                var i when i.Code == OpCode.Unknown || i.Mode == AddressingMode.Unknown => new UnknownInstruction(_labelFinder),
-                var i when SingleByteAddressModes.Contains(i.Mode) => new SingleByteAddressInstruction(_labelFinder),
-                var i when TwoByteAddressModes.Contains(i.Mode) => new TwoByteAddressInstruction(_labelFinder),
-                _ => new NoAddressInstruction(_labelFinder)
+                var i when i.Code == OpCode.Unknown || i.Mode == AddressingMode.Unknown => new UnknownInstruction(code, _labelFinder),
+                var i when SingleByteAddressModes.Contains(i.Mode) => new SingleByteAddressInstruction(code, _labelFinder),
+                var i when TwoByteAddressModes.Contains(i.Mode) => new TwoByteAddressInstruction(code, _labelFinder),
+                _ => new NoAddressInstruction(code, _labelFinder)
             };
 
-            instruction.Code = code;
             instruction.Mode = mode;
             instruction.AddressString = addressString;
             instruction.LineNumber = lineNumber;
