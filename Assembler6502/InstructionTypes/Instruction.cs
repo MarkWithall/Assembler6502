@@ -5,7 +5,7 @@ using static Assembler6502.AddressingMode;
 
 namespace Assembler6502.InstructionTypes
 {
-    public abstract class Instruction
+    internal abstract class Instruction
     {
         private readonly ILabelFinder _labelFinder;
 

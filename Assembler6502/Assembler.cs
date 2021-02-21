@@ -2,7 +2,7 @@
 
 namespace Assembler6502
 {
-    public static class Assembler
+    internal static class Assembler
     {
         public static (byte[] binary, string[] errors) Assemble(string[] sourceCode, ushort startingAddress)
         {

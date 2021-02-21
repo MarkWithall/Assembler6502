@@ -3,7 +3,7 @@ using static Assembler6502.InstructionInformation;
 
 namespace Assembler6502.InstructionTypes
 {
-    public sealed class TwoByteAddressInstruction : Instruction
+    internal sealed class TwoByteAddressInstruction : Instruction
     {
         public TwoByteAddressInstruction(ILabelFinder labelFinder) : base(labelFinder)
         {

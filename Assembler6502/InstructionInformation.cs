@@ -4,7 +4,7 @@ using static Assembler6502.OpCode;
 
 namespace Assembler6502
 {
-    public static class InstructionInformation
+    internal static class InstructionInformation
     {
         public static readonly ISet<AddressingMode> SingleByteAddressModes = new HashSet<AddressingMode>
         {

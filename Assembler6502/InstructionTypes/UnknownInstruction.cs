@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Assembler6502.InstructionTypes
 {
-    public sealed class UnknownInstruction : Instruction
+    internal sealed class UnknownInstruction : Instruction
     {
         public UnknownInstruction() : base(null)
         {

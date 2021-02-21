@@ -6,7 +6,7 @@ using Assembler6502.InstructionTypes;
 
 namespace Assembler6502
 {
-    public sealed class InstructionCollection : Collection<Instruction>, ILabelFinder
+    internal sealed class InstructionCollection : Collection<Instruction>, ILabelFinder
     {
         private readonly ushort _startingAddress;
 

@@ -5,7 +5,7 @@ using static Assembler6502.AddressingMode;
 
 namespace Assembler6502
 {
-    public sealed class InstructionParser
+    internal sealed class InstructionParser
     {
         private readonly InstructionFactory _factory;
 
